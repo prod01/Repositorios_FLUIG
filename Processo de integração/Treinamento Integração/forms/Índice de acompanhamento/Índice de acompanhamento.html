@@ -1,0 +1,160 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script language="javascript"> function disablePullToRefresh(){return true; }</script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script/script.js" ></script>
+</head>
+<body>
+<div class="fluig-style-guide">
+<form name="form" role="form">
+			
+			<div class="col-xs-12 col-md-4">
+			
+					<label for="IDMAQUINA">1º Identificador:</label>
+							<input 
+											type="zoom"
+										    id = "IDMAQUINA"
+										    name="IDMAQUINA"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'IDOBJOF',
+										        'datasetId':'ds_Objeto_Manutencao',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'IDOBJOF',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+			</div>
+														
+			<div class="col-xs-12 col-md-4">
+																	
+						<label for="USUARIO">Usuario:</label>
+															
+						<input type="text" id="USUARIO"  name="USUARIO" class="form-control">
+								
+			</div>
+										     	
+			<div class="col-xs-12 col-md-4">									     										    					
+							<label for="only-date">Data:</label>
+							 
+			<div class="input-group date"  >
+																   
+							<input type="text" class="form-control" id="DATAMEDICAO" name="DATAMEDICAO">
+																   
+							<span class="input-group-addon">
+																   
+							<span class="fluigicon fluigicon-calendar"></span>
+																   
+							</span>
+			</div>
+			</div>
+							  
+					<table id="TABELA_PNEUS" class="table" cellspacing="0" tablename="TABELA_PNEUS" noaddbutton="true" customFnDelete="deleteLinhaTabela(this, 'TABELA_EQUIPAMENTO')"  nodeletebutton="true">
+							<thead>
+									<tr class="tableHeadRow">
+									<th class="tableColumn"></th>
+									</tr>
+							</thead>
+					<tbody>
+									<tr>
+									<td>
+			
+			
+			<div class="col-xs-12 col-md-4">
+																					
+			<div class="row">
+			
+				<label id="LABELPOSICAOPNEU"></label>
+			
+			</div>	
+				
+			    <label for="LABELIDPNEU"> ID Pneu :</label>
+			    		
+				<input type="text" id = "IDPNEU" name="IDPNEU" class="form-control"  readonly="readonly">
+			</div>
+	
+														
+			<div class="col-xs-12 col-md-4">
+																	
+						<label for="VALORMEDICAO">Valor de medição :</label>
+															
+						<input type="number" min="1"  id="VALORMEDICAO"  name="VALORMEDICAO" class="form-control">
+								
+			</div>
+								
+			<div class="col-xs-12 col-md-4"><!-- Data set que vai buscar o indice de acopamnahento  -->
+								
+						<label for="NOMEINDICEACOMPANHAMENTO">Índice de acompanhamento do produto :</label>
+								
+							<input type="zoom"								
+				    				   id = "NOMEINDICEACOMPANHAMENTO"
+				    				   name="NOMEINDICEACOMPANHAMENTO"
+									   class="form-control"
+									   value=""
+									   data-zoom="{
+					        		   'displayKey':'NOME',
+			    					   'datasetId':'ds_Indice_Acompanhamento',
+				        			   'placeholder':'',
+									   'fields':[
+		            				   {
+		      						   'field':'IDINDICE',
+			  						   'label':'Codigo',
+			             			   'standard':'true'
+		       							},
+						   				{
+						  				'field':'NOME',
+				 						'label':'Índice',
+					     				'standard':'true'
+						 				}
+		 								]
+										}"
+										/>
+				</div>
+						<input type="hidden" id="INDICEACOMPANHAMENTO"  name="INDICEACOMPANHAMENTO" >	
+						
+						<input type="hidden" id="IDHISTINDICADOR"  name="IDHISTINDICADOR" >			
+									
+						<input type="hidden" id="VALORMAX"  name="VALORMAX" >
+										
+						<input type="hidden" id="VALORMIN"  name="VALORMIN" >			
+									
+													
+							</td></tr>
+								
+							</tbody>
+								
+							</table>
+		    	    
+			
+				
+						<!--Campo hidden que fazem algumas buscas -->
+							
+		
+					<input type="hidden" id="CAMPOIDHISTINDICADOR"  name="CAMPOIDHISTINDICADOR" >
+			
+					<input type="hidden" id="CAMPOVALORMIN"  name="CAMPOVALORMIN" >			
+		
+					<input type="hidden" id="CAMPOVALORMAX"  name="CAMPOVALORMAX" >
+						
+					<input type="hidden" id="SET_PRIMEIRO_VALOR"  name="SET_PRIMEIRO_VALOR" >			
+		
+					<input type="hidden" id="SET_ULTIMO_VALOR"  name="SET_ULTIMO_VALOR" >
+					
+					<input type="hidden" id="NUMEROPNEUS"  name="NUMEROPNEUS" >
+						
+			
+</form>
+</div>
+</body>
+</html>

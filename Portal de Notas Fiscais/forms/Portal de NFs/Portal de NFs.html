@@ -1,0 +1,624 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<script type="text/javascript" src="script.js"></script>
+	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/moment.min.js"></script>
+</head>
+<body>
+<div class="fluig-style-guide">
+<form name="form" role="form">
+	<input type="hidden" id="NUMEROATIVIDADE" name="NUMEROATIVIDADE">
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Dados da Nota Fiscal:</h3>
+    </div>
+    <div class="panel-body">
+	    <div class="row">
+
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="BT_AnexoNf">Anexar NF:</label>
+				<input type="button" class="form-control" name="BT_AnexoNf" id="BT_AnexoNf" value="Clique para anexar" onclick="showCamera();designacaoAutomatica()">
+			</div>
+		
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="TX_DataEmissao">Data de Emissão da NF:</label>
+				<input type="text" id="TX_DataEmissao" name="TX_DataEmissao" value="" class="form-control" onfocus="dataEmissao(this);designacaoAutomatica()">
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="TX_DataRecebimento">Data de Recebimento:</label>
+				<input type="text" id="TX_DataRecebimento" name="TX_DataRecebimento" value="" mask="00/00/0000" class="form-control"
+				onfocus="dataEmissao(this)"
+				onchange="campoTipoNota(document.getElementById('TX_DataRecebimento'), document.getElementById('radio-1'), document.getElementById('radio-2'), document.getElementById('TA_JustificaAtraso'))"
+				onblur="campoTipoNota(document.getElementById('TX_DataRecebimento'), document.getElementById('radio-1'), document.getElementById('radio-2'), document.getElementById('TA_JustificaAtraso'))">
+			</div>
+			
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="TX_NumeroNota">Número da Nota Fiscal:</label>
+				<input type="text" id="TX_NumeroNota" name="TX_NumeroNota" value="" mask="#0000000000000000" class="form-control">
+			</div>
+			
+		</div>
+		<!-- ========================================================================================================================== -->
+		<div class="row">
+			
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="ZOOM_LocalRecebimento">Filial de Destino da NF:</label>
+				<input
+				    type="zoom"
+				    id = "ZOOM_LocalRecebimento"
+				    name="ZOOM_LocalRecebimento"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'NOMEFANTASIA',
+				        'datasetId':'ds_filiais',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Codigo',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'NOMEFANTASIA',
+				               'label':'Nome Fantasia',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="CB_Cte">CT-e vinculado:</label>
+				<select class="form-control" name="CB_Cte" id="CB_Cte" onchange="cteVinculado()">
+					<option value="0">Não</option>
+					<option value="1">Sim</option>
+				</select>
+			</div>
+			
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="TX_NumeroOcCte">Número da OC do CT-e:</label>
+				<div id="CAMPOHIDDEN"><input type="text" id="TX_NumeroOcCteHIDDEN" name="TX_NumeroOcCteHIDDEN" value="" class="form-control" disabled></div>
+				<div id="CAMPOZOOM">
+				<input
+				    type="zoom"
+				    id = "TX_NumeroOcCte"
+				    name="TX_NumeroOcCte"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'NUMEROMOV',
+				        'datasetId':'ds_oc_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'NUMEROMOV',
+				               'label':'NUMEROMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				     onload="cteVinculado()"
+				/>
+				</div>
+			</div>
+
+			<div class="form-group col-xs-12 col-sm-6 col-md-3">
+				<label for="BT_AnexoCte">Anexar CT-e:</label>
+				<input type="button" class="form-control" name="BT_AnexoCte" id="BT_AnexoCte" value="Clique para anexar" onclick="showCamera()" disabled>
+			</div>
+			
+		</div>
+		<!-- ========================================================================================================================== -->
+		<div class="row">
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_NumeroOcNota">Número da OC da Nota:</label>
+				<input
+				    type="zoom"
+				    id = "TX_NumeroOcNota"
+				    name="TX_NumeroOcNota"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'NUMEROMOV',
+				        'datasetId':'ds_oc_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'NUMEROMOV',
+				               'label':'NUMEROMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="CB_Boleto">Gera Financeiro:</label>
+				<select class="form-control" name="CB_Boleto" id="CB_Boleto" onchange="temBoleto(document.getElementById('CB_Boleto').value,document.getElementById('TX_DataVencimentoBoleto'),document.getElementById('BT_AnexoBoleto'))">
+					<option value="0">Não</option>
+					<option value="1">Sim</option>
+				</select>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_DataVencimentoBoleto">Primeiro Vencimento do Boleto / Depósito:</label>
+				<input type="text" id="TX_DataVencimentoBoleto" name="TX_DataVencimentoBoleto" value="" class="form-control" onfocus="data(document.getElementById('TX_DataVencimentoBoleto'))" disabled>
+				<input type="hidden" id="DENTRODOPRAZOPAGAMENTO" name="DENTRODOPRAZOPAGAMENTO" value="DENTRODOPRAZO">
+				<script>
+					$(function(){
+					    $("#TX_DataVencimentoBoleto").change(function() {
+							var prazo = true;
+							console.log("Prazo: "+prazo)
+							console.log(document.getElementById("TX_DataVencimentoBoleto"))
+							var dataVencimento = document.getElementById("TX_DataVencimentoBoleto").value
+							console.log("dataVencimento: "+dataVencimento)
+							
+							var parts = dataVencimento.split('/');
+							var ano = parts[2];
+							
+							var mes = parseInt(parts[1])-1;
+							if (mes < 10){
+								mes = "0" + mes.toString();
+							} else {
+								mes = mes.toString();
+							}
+							
+							var dia = parseInt(parts[0]);
+							if (dia < 10){
+								dia = "0" + dia.toString();
+							} else {
+								dia = dia.toString();
+							}
+							
+							var mydate = new Date(ano, mes, dia, "00", "00", "00")
+							
+
+							var dataPostagem = Math.abs(new Date().getTime() - mydate.getTime())
+
+							var dias = Math.ceil(dataPostagem / (1000 * 3600 * 24)) - 1
+
+							var diaSemana = new Date().getDay()
+							if ((diaSemana == 0 && dias < 5) || (diaSemana == 1 && dias < 4) || 
+									(diaSemana == 2 && dias < 3) || (diaSemana == 3 && dias < 9) ||
+										(diaSemana == 4 && dias < 8) || (diaSemana == 5 && dias < 7) ||
+											(diaSemana == 6 && dias < 6) || (diaSemana == 7 && dias < 5)){//(diaSemana == 2 && dias < 3) =-= (diaSemana == 2 && dias < 12)
+								prazo = true
+								document.getElementById("DENTRODOPRAZOPAGAMENTO").value = "FORADOPRAZO"
+							} else {
+								prazo = false
+								document.getElementById("DENTRODOPRAZOPAGAMENTO").value = "DENTRODOPRAZO"
+							}
+							console.log("prazo: "+prazo)
+							 
+							if (prazo){
+
+								console.log("===============================: entrou :==============================================");
+								
+								FLUIGC.toast({
+									title: 'Favor prorrogar o Boleto: ',
+									message: 'O vencimento do boleto está fora do prazo de pagamento.',
+									type: 'danger'
+								});
+							} else {
+								console.log("===============================: Não entrou :==============================================");
+							}
+							
+					    });
+					});
+				</script>
+			</div>
+
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="BT_AnexoBoleto">Anexar Boleto:</label>
+				<input type="button" class="form-control" name="BT_AnexoBoleto" id="BT_AnexoBoleto" value="Clique para anexar" onclick="showCamera()" disabled>
+			</div>
+			
+		</div>
+		<!-- ========================================================================================================================== -->
+		<div class="row">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="TA_Observacao">Observação:</label>
+			</div>
+			
+		</div>
+		
+		<div class="row" id="TextoJustifiactiva">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<textarea id="TA_Observacao" name="TA_Observacao" value="" rows="1" class="form-control"></textarea>
+			</div>
+		
+		</div>
+		<!-- ========================================================================================================================== -->
+		<div class="row" id="TituloJustifiactiva">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="TA_JustificaAtraso">Justificativa de Atraso:</label>
+			</div>
+			
+		</div>
+		
+		<div class="row" id="TextoJustifiactiva">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<textarea id="TA_JustificaAtraso" name="TA_JustificaAtraso" value="" rows="3" class="form-control" disabled></textarea>
+			</div>
+		
+		</div>
+    </div>
+	</div>
+	
+		<!-- ========================================================================================================================== -->
+	
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Aprovação Gestor(a) e Diretoria:</h3>
+    </div>
+    <div class="panel-body">
+		
+		<div class="row" >
+		
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="USUARIOLANCAMENTO">Usuário de Criação:</label>
+				<input type="text" id="USUARIOLANCAMENTO" name="USUARIOLANCAMENTO" class="form-control">
+			</div>
+			
+		</div>
+		
+		<div class="row" >
+			
+			<div class="form-group col-xs-12 col-md-6">
+				<div class="row">
+					<div class="form-group col-xs-12 col-md-12">
+					<label for="CB_Gestor">Gestor(a):</label>
+					<select class="form-control" name="CB_Gestor" id="CB_Gestor" onchange="ativaCamposJustificativaDaAprovacao(document.getElementById('CB_Gestor').value,document.getElementById('TA_JustificaAprovGestor'));validacaoAprovacaoGestor()">
+						<option value="0">Selecione...</option>
+						<option value="1">Sim</option>
+						<option value="2">Não</option>
+					</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-xs-12 col-md-12">
+					<label for="TA_JustificaAprovGestor">Justificativa de Não Aprovação (Gestor):</label>
+					<textarea id="TA_JustificaAprovGestor" name="TA_JustificaAprovGestor" value="" rows="3" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			
+			<div class="form-group col-xs-12 col-md-6">
+				<div class="row">
+					<div class="form-group col-xs-12 col-md-12">
+					<label for="CB_Diretoria">Diretoria:</label>
+					<select class="form-control" name="CB_Diretoria" id="CB_Diretoria" onchange="ativaCamposJustificativaDaAprovacao(document.getElementById('CB_Diretoria').value,document.getElementById('TA_JustificaAprovDiretoria'))">
+						<option value="0">Selecione...</option>
+						<option value="1">Sim</option>
+						<option value="2">Não</option>
+					</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-xs-12 col-md-12">
+					<label for="TA_JustificaAprovDiretoria">Justificativa de Não Aprovação (Diretoria):</label>
+					<textarea id="TA_JustificaAprovDiretoria" name="TA_JustificaAprovDiretoria" value="" rows="3" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+    </div>
+    
+   				 <input type="hidden" id="DENTRO_PRAZO_APROV_GEST" name="DENTRO_PRAZO_APROV_GEST" value="DENTRODOPRAZO">
+   				 
+	</div>
+	
+		<!-- ========================================================================================================================== -->
+		
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Triagem Fiscal:</h3>
+    </div>
+    <div class="panel-body">
+		<div class="row">
+		
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="CB_Postagem">Postagem correta:</label>
+				<select class="form-control" name="CB_Postagem" id="CB_Postagem" onchange="campoJustificaPostagem(document.getElementById('CB_Postagem').value, document.getElementById('TA_JustificaPostagem'))">
+					<option value="0">Selecione...</option>
+					<option value="1">Sim</option>
+					<option value="2">Não</option>
+				</select>
+			</div>
+			
+			<div class="form-group col-xs-12 col-md-8">
+				<label for="CB_TipoNota">Tipo:</label>
+				<select class="form-control" name="CB_TipoNota" id="CB_TipoNota">
+					<option value="0">Selecione...</option>
+					<option value="1">Compra/Devolução de Material - Finalidade: Revenda</option>
+					<option value="2">Compra de Material - Finalidade: Uso/Consumo  (Dentro da UF)</option>
+					<option value="3">Compra de Material - Finalidade: Uso/Consumo  (Fora da UF)</option>
+					<option value="4">NFS-e de Serviços / Recibo de Locação </option>
+					<option value="5">Remessa/Retorno de locação, conserto, comodato, demonstração, e outras</option>
+					<option value="6">Conhecimento de Transporte - CT-e</option>
+					<option value="7">Abastecimento de Combustível - SHV</option>
+					<option value="8">Contas: Comunicação, Energia Elétrica e Água</option>
+				</select>
+			</div>
+			
+		</div>
+		<!-- ========================================================================================================================== -->
+		<div class="row" id="TituloJustifiactiva">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="TA_JustificaPostagem">Justificativa de Postagem Incorreta:</label>
+			</div>
+			
+		</div>
+		
+		<div class="row" id="TextoJustifiactiva">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<textarea id="TA_JustificaPostagem" name="TA_JustificaPostagem" value="" rows="3" class="form-control" disabled></textarea>
+			</div>
+		
+		</div>
+		<div class="row" id="TituloJustifiactivaCompras">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="TA_JustificaCompras">Justificativa do Setor de Compras:</label>
+			</div>
+			
+		</div>
+		
+		<div class="row" id="TextoJustifiactivaCompras">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<textarea id="TA_JustificaCompras" name="TA_JustificaCompras" value="" rows="3" class="form-control"></textarea>
+			</div>
+		
+		</div>
+		
+    </div>
+	</div>
+	
+		<!-- ========================================================================================================================== -->
+	
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Lançamento Fiscal:</h3>
+    </div>
+    <div class="panel-body">
+		<div class="row">
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_ChapaLogado">Usuário Logado:</label>
+				<input type="text" id="TX_ChapaLogado" name="TX_ChapaLogado" value="" class="form-control" disabled>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_DtLancamento">Data do Lançamento:</label>
+				<input type="text" id="TX_DtLancamento" name="TX_DtLancamento" value="" class="form-control" disabled>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_IDMOV">IDMOV:</label>
+				<input
+				    type="zoom"
+				    id = "TX_IDMOV"
+				    name="TX_IDMOV"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'IDMOV',
+				        'datasetId':'ds_idmov_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'IDMOV',
+				               'label':'IDMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="CB_Tipo">Tipo de Lançamento:</label>
+				<div class="custom-radio custom-radio-primary">
+				    <input type="radio" name="RADIO" value="1" id="radio-1" checked disabled>
+				    <label for="radio-1">Normal</label>
+				    <input type="radio" name="RADIO" value="2" id="radio-2" disabled>
+				    <label for="radio-2">Nfex</label>
+				    <input type="hidden" name="TIPONOTA" id="TIPONOTA">
+				    <input type="hidden" name="CHAPATECNICO" id="CHAPATECNICO" value="">
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="row" >
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_IDMOV1">IDMOV 1:</label>
+				<input
+				    type="zoom"
+				    id = "TX_IDMOV1"
+				    name="TX_IDMOV1"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'IDMOV',
+				        'datasetId':'ds_idmov_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'IDMOV',
+				               'label':'IDMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_IDMOV2">IDMOV 2:</label>
+				<input
+				    type="zoom"
+				    id = "TX_IDMOV2"
+				    name="TX_IDMOV2"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'IDMOV',
+				        'datasetId':'ds_idmov_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'IDMOV',
+				               'label':'IDMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_IDMOV3">IDMOV 3:</label>
+				<input
+				    type="zoom"
+				    id = "TX_IDMOV3"
+				    name="TX_IDMOV3"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'IDMOV',
+				        'datasetId':'ds_idmov_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'IDMOV',
+				               'label':'IDMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+			<div class="form-group col-xs-3 col-md-3">
+				<label for="TX_IDMOV4">IDMOV 4:</label>
+				<input
+				    type="zoom"
+				    id = "TX_IDMOV4"
+				    name="TX_IDMOV4"
+				    class="form-control"
+				    value=""
+				    data-zoom="{
+				        'displayKey':'IDMOV',
+				        'datasetId':'ds_idmov_nf',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'IDMOV',
+				               'label':'IDMOV',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODFILIAL',
+				               'label':'Filial',
+				              'standard':'true'
+				            },
+				            {
+				               'field':'CODCOLIGADA',
+				               'label':'Coligada',
+				              'standard':'true'
+				            }
+				        ]
+				     }"
+				/>
+			</div>
+			
+		</div>
+    </div>
+	</div>
+	
+	<input type="hidden" name="APROVANFEX" id="APROVANFEX" value="">
+
+</form>
+</div>
+</body>
+</html>

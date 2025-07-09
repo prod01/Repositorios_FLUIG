@@ -1,0 +1,366 @@
+
+	<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>DADOS DA SOLICITAÇÃO</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="RESP_NC">Responsável NC:</label>
+				<input type="text" name="RESP_NC" id="RESP_NC" value="" class="form-control" readonly="readonly" >
+				<input type="hidden" id="USUARIO_NC"  name="USUARIO_NC" >
+
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+							<label for="REQUISITOS_NC_ISO">Requisitos ISO 9001:</label> 
+	                  		<select name="REQUISITOS_NC_ISO" id="REQUISITOS_NC_ISO" class="form-control" onchange="tipo()">
+	               		 		<option value="VAZIO" ></option>
+	               		 		<option value="4 - Contexto da Organização " >4 - Contexto da Organização </option>
+	               		 		<option value="4.1 - Entendendo a organização e seu contexto ">4.1 - Entendendo a organização e seu contexto </option>
+	               		 		<option value="4.2 - Entendendo as necessidades e expectativas de partes interessadas" >4.2 - Entendendo as necessidades e expectativas de partes interessadas</option>
+	               		 		<option value="4.3 - Determinando o escopo do sistema de gestão da qualidade">4.3 - Determinando o escopo do sistema de gestão da qualidade </option>
+	               		 		<option value="4.4 - Sistema de Gestão da Qualidade e seus processos" >4.4 - Sistema de Gestão da Qualidade e seus processos </option>
+	               		 		<option value="5 - Liderança">5 - Liderança </option>
+	               		 		<option value="5.1 - Liderança e Comprometimento" >5.1 - Liderança e Comprometimento </option>
+	               		 		<option value="5.1.1 - Generalidades">5.1.1 - Generalidades </option>
+	               		 		<option value="5.1.2 - Foco no cliente" >5.1.2 - Foco no cliente </option>
+	               		 		<option value="5.2 - Polític">5.2 - Política </option>
+	               		 		<option value="5.2.1 - Desenvolvendo a Política da Qualidade">5.2.1 - Desenvolvendo a Política da Qualidade</option>
+							    <option value="5.2.2 - Comunicando a Política da Qualidade">5.2.2 - Comunicando a Política da Qualidade</option>
+							  	<option value="5.3 - Papéis, responsabilidades e autoridades organizacionais">5.3 - Papéis, responsabilidades e autoridades organizacionais</option>
+							  	<option value="6 - Planejamento 20">6 - Planejamento 20</option>
+							 	<option value="6.1 - Ações para abordar riscos e oportunidades">6.1 - Ações para abordar riscos e oportunidades</option>
+							 	<option value="6.2 - Objetivos da qualidade e planejamento para alcançá-los">6.2 - Objetivos da qualidade e planejamento para alcançá-los</option>
+							 	<option value="6.3 - Planejamento de mudanças">6.3 - Planejamento de mudanças</option>
+							 	<option value="7 - Apoio">7 - Apoio</option>
+							 	<option value="7.1 - Recursos">7.1 - Recursos</option>
+							 	<option value="7.1.1 - Generalidades">7.1.1 - Generalidades</option>
+							  	<option value="7.1.2 - Pessoas">7.1.2 - Pessoas</option>
+	               		 		<option value="7.1.3 - Infraestrutura">7.1.3 - Infraestrutura</option>
+							  	<option value="7.1.4 - Ambiente para operação dos processos">7.1.4 - Ambiente para operação dos processos</option>
+							  	<option value="7.1.5 - Recursos de monitoramento e medição">7.1.5 - Recursos de monitoramento e medição</option>
+							  	<option value="7.1.5.1 - Generalidades">7.1.5.1 - Generalidades</option>
+							  	<option value="7.1.5.2 - Rastreabilidade de medição">7.1.5.2 - Rastreabilidade de medição</option>
+							  	<option value="7.1.6 - Conhecimento organizacional">7.1.6 - Conhecimento organizacional</option>
+							  	<option value="7.2 - Competência">7.2 - Competência</option>
+							  	<option value="7.3 - Conscientização">7.3 - Conscientização</option>
+							  	<option value="7.4 - Comunicação">7.4 - Comunicação</option>
+							  	<option value="7.5 - Informação documentada">7.5 - Informação documentada</option>
+							  	<option value="7.5.1 - Generalidades">7.5.1 - Generalidades</option>
+							  	<option value="7.5.2 - Criando e atualizando">7.5.2 - Criando e atualizando</option>
+							  	<option value="7.5.3 - Controle de informação documentada">7.5.3 - Controle de informação documentada</option>
+							  	<option value="8 - Operação">8 - Operação</option>
+							  	<option value="8.1 - Planejamento e controle operacionais">8.1 - Planejamento e controle operacionais</option>
+							  	<option value="8.2 - Requisitos para produtos e serviços">8.2 - Requisitos para produtos e serviços</option>
+							  	<option value="8.2.1 - Comunicação com o cliente">8.2.1 - Comunicação com o cliente</option>
+							  	<option value="8.2.2 - Determinação de requisitos relativos a produtos e serviços">8.2.2 - Determinação de requisitos relativos a produtos e serviços</option>
+							  	<option value="8.2.3 - Análise crítica de requisitos relativos a produtos e serviços">8.2.3 - Análise crítica de requisitos relativos a produtos e serviços</option>
+							  	<option value="8.2.4 - Mudanças nos requisitos para produtos e serviços">8.2.4 - Mudanças nos requisitos para produtos e serviços</option>
+							  	<option value="8.4 - Controle de processos, produtos e serviços providos externamente">8.4 - Controle de processos, produtos e serviços providos externamente</option>
+							  	<option value="8.4.1 - Generalidades">8.4.1 - Generalidades</option>
+							 	<option value="8.4.2 - Tipo e extensão do controle">8.4.2 - Tipo e extensão do controle</option>
+							  	<option value="8.4.3 - Informação para provedores externos">8.4.3 - Informação para provedores externos</option>
+							  	<option value="8.5 - Produção e provisão de serviço">8.5 - Produção e provisão de serviço</option>
+							  	<option value="8.5.1 - Controle de Produção e de provisão de serviço">8.5.1 - Controle de Produção e de provisão de serviço</option>
+							  	<option value="8.5.2 - Identificação e rastreabilidade">8.5.2 - Identificação e rastreabilidade</option>
+							  	<option value="8.5.3 - Propriedade pertencente a clientes ou provedores externos">8.5.3 - Propriedade pertencente a clientes ou provedores externos</option>
+							  	<option value="8.5.4 - Preservação">8.5.4 - Preservação</option>
+							  	<option value="8.5.5 - Atividades Pós-entrega">8.5.5 - Atividades Pós-entrega</option>
+							  	<option value="8.5.6 - Controle de mudanças">8.5.6 - Controle de mudanças</option>
+							  	<option value="8.6 - Liberação de Produtos e serviços">8.6 - Liberação de Produtos e serviços</option>
+							  	<option value="8.7 - Controle de saídas não conformes">8.7 - Controle de saídas não conformes</option>
+							  	<option value="9 - Avaliação de desempenho">9 - Avaliação de desempenho</option>
+							  	<option value="9.1 - Monitoramento, medição, análise e avaliação">9.1 - Monitoramento, medição, análise e avaliação </option>
+	               		 		<option value="9.1.1 - Generalidades" >9.1.1 - Generalidades </option>
+	               		 		<option value="9.1.2 - Satisfação do cliente">9.1.2 - Satisfação do cliente  </option>
+	               		 		<option value="9.1.3 - Análise e Avaliação">9.1.3 - Análise e Avaliação  </option>
+	               		 		<option value="9.2 - Auditoria Interna" >9.2 - Auditoria Interna  </option>
+	               		 		<option value="9.3 - Análise crítica pela direção">9.3 - Análise crítica pela direção  </option>
+	               		 		<option value="9.3.1 - Generalidades" >9.3.1 - Generalidades  </option>
+	               		 		<option value="9.3.2 - Entradas de análise crítica pela direção">9.3.2 - Entradas de análise crítica pela direção  </option>
+	               		 		<option value="9.3.3 - Saídas de Análise crítica pela direção" >9.3.3 - Saídas de Análise crítica pela direção </option>
+	               		 		<option value="10 - Melhoria">10 - Melhoria </option>
+	               		 		<option value="10.1 - Generalidades">10.1 - Generalidades</option>
+							  	<option value="10.2 - Não conformidade e ação corretiva">10.2 - Não conformidade e ação corretiva</option>
+							  	<option value="10.3 - Melhoria continua">10.3 - Melhoria continua</option>
+	            		  	</select>	
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="NUM_MOV_NC">Número Mov NC :</label>
+				<input mask="0000-000" type="text" name="NUM_MOV_NC" id="NUM_MOV_NC" value="" class="form-control" >
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="DATA_NC">Data da NC :</label>
+				<input type="text" name="DATA_NC" id="DATA_NC" value="" class="form-control" readonly="readonly" >
+			</div>
+		</div>
+	
+		<div class="row">
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="CENTRO_DE_CUSTO">Centro de custo:</label>
+						<input type="hidden" class="form-control" name="COD_CCUSTO" id="COD_CCUSTO">
+						<input type="zoom" class="form-control" name="CENTRO_DE_CUSTO" id="CENTRO_DE_CUSTO"
+		                                            data-zoom="{
+		                                                    'displayKey':'CCUSTO',
+		                                                        'datasetId':'ds_ccusto_NC',                                 
+		                                                        'placeholder': 'Cod. Centro de Custos ou Nome',
+		                                                            'fields':[
+		                                                            {
+		                                                            'field':'CCUSTO',
+		                                                            'label':'Cod. Centro de Custos ou Nome',
+		                                                            'standard':'true'
+		                                                            }
+		                                                        ]
+		                                                    }"
+		                                        />   
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="RESP_CC_NC">Responsável Centro de Custo:</label>
+						<input type="text" name="RESP_CC_NC" id="RESP_CC_NC" value="" class="form-control" readonly="readonly" >
+						<input type="hidden" class="form-control" name="EMAIL_SOLICITANTE" id="EMAIL_SOLICITANTE">
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="FONTE_DE_IDENTIFICACAO_NC">Fonte de Identificação:</label> 
+	                  		<select name="FONTE_DE_IDENTIFICACAO_NC" id="FONTE_DE_IDENTIFICACAO_NC" class="form-control" >
+	               		 		<option value="VAZIO" ></option>
+	               		 		<option value="Auditoria Interna" >Auditoria Interna</option>
+	               		 		<option value="Auditoria Externa">Auditoria Externa</option>
+	               		 		<option value="Desvio de Processos">Desvio de Processos</option>
+	               		 		<option value="Reclamação do Cliente">Reclamação do Cliente</option>
+	            		  	</select>	
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="REINCIDENCIA_NC">Reincidência:</label> 
+	                  		<select name="REINCIDENCIA_NC" id="REINCIDENCIA_NC" class="form-control" >
+	               		 		<option value="VAZIO" ></option>
+	               		 		<option value="SIM" >Sim</option>
+	               		 		<option value="NAO">Não</option>
+	               		 		
+	            		  	</select>	
+					</div>
+		</div>
+		<div class="row">
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="DESCRICAO_NC">Descrição NC:</label>
+				<textarea id="DESCRICAO_NC" name="DESCRICAO_NC" value="" class="form-control" rows="4"></textarea>
+			</div>
+		
+		</div>
+		
+	</div>
+	</div>
+	<div id="PLANO_ACAO" >	
+			<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">PLANO DE AÇÃO</h3>
+				    </div>
+				    <div class="panel-body">
+				     <div class="form-group col-xs-12 col-md-6">
+						<label for="PRAZO_ATENDIMENTO_PA">Prazo Atendimento NC :</label>
+						<input type="text" name="PRAZO_ATENDIMENTO_PA" id="PRAZO_ATENDIMENTO_PA" value="" class="form-control" readonly="readonly" >
+					</div>
+					 <div class="form-group col-xs-12 col-md-6">
+						<label for="PRAZO_ACAO_PA">Prazo Ação NC :</label>
+						<input type="date" name="PRAZO_ACAO_PA" id="PRAZO_ACAO_PA" value="" class="form-control"  >
+					</div>
+				    <div class="form-group col-xs-12 col-md-12">
+						<label for="ACAO_IMEDIATA_PA">Ação Imediata:</label>
+						<textarea id="ACAO_IMEDIATA_PA" name="ACAO_IMEDIATA_PA" value="" class="form-control" rows="4"></textarea>
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="teste">ANALISE DE CAUSA</label>
+						
+					</div>
+					 <div class="form-group col-xs-12 col-md-12">
+						<label for="PORQUE_1">Por quê? :</label>
+						<input type="text" name="PORQUE_1" id="PORQUE_1" value="" class="form-control" >
+					</div>
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PORQUE_2">Por quê? :</label>
+						<input type="text" name="PORQUE_2" id="PORQUE_2" value="" class="form-control" >
+					</div>
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PORQUE_3">Por quê? :</label>
+						<input type="text" name="PORQUE_3" id="PORQUE_3" value="" class="form-control" >
+					</div>
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PORQUE_4">Por quê? :</label>
+						<input type="text" name="PORQUE_4" id="PORQUE_4" value="" class="form-control" >
+					</div>
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PORQUE_5">Por quê? :</label>
+						<input type="text" name="PORQUE_5" id="PORQUE_5" value="" class="form-control" >
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="ACAO_CORRETIVA_PA">Ações corretivas:</label>
+						<textarea id="ACAO_CORRETIVA_PA" name="ACAO_CORRETIVA_PA" value="" class="form-control" rows="4"></textarea>
+					</div>
+				   
+		    		</div> 
+	  	  </div>
+	</div>
+	
+	<div id="VALIDACAO_PLANO_ACAO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">VALIDAÇÃO DO PLANO DE AÇÃO:</h3>
+			    </div>
+			    <div class="panel-body">
+					    <div class="row">
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="VALIDACAO_PLAN_ACAO">Validação Plano de Ação:</label> 
+			                  		<select name="VALIDACAO_PLAN_ACAO" id="VALIDACAO_PLAN_ACAO" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="APROVADA" >Aprovado</option>
+			               		 		<option value="REPROVADA">Reprovado</option> 	
+			            		  	</select>	
+							</div>
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="OBS_PLAN_ACAO">Observações:</label>
+									<textarea id="OBS_PLAN_ACAO" name="OBS_PLAN_ACAO" value="" class="form-control" rows="4"></textarea>
+							</div>
+						</div>
+		 		</div>
+	    	 </div> 
+	  </div>
+	  
+	  <div id="ANEXO_EVIDENCIAS" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">EVIDÊNCIAS:</h3>
+			    </div>
+			    <div class="panel-body">
+					    <div class="row">
+					    	
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="OBS_EVIDENCIAS_GEST">Observações:</label>
+									<textarea id="OBS_EVIDENCIAS_GEST" name="OBS_EVIDENCIAS_GEST" value="" class="form-control" rows="4"></textarea>
+							</div>
+							<div class='form-group col-xs-12 col-md-12'>
+									<label for="ANEXO_EVIDENCIAS">Anexo de documentos:</label>
+									<input type="button" class="form-control" name="ANEXO_EVIDENCIAS" id="ANEXO_EVIDENCIAS" value="Clique para anexar" onclick="showCamera()">
+							</div>
+						</div>
+		 		</div>
+	    	 </div> 
+	  </div>
+	  
+	  <div id="VALIDACAO_EVIDENCIAS" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">AVALIAÇÃO EVIDENCIAS:</h3>
+			    </div>
+			    <div class="panel-body">
+					    <div class="row">
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="VALIDACAO_EVIDENCIAS">Validação Evidencias:</label> 
+			                  		<select name="VALIDACAO_EVIDENCIAS" id="VALIDACAO_EVIDENCIAS" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="APROVADA" >Aprovado</option>
+			               		 		<option value="REPROVADA">Reprovado</option> 	
+			            		  	</select>	
+							</div>
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="OBS_EVIDENCIAS">Observações:</label>
+									<textarea id="OBS_EVIDENCIAS" name="OBS_EVIDENCIAS" value="" class="form-control" rows="4"></textarea>
+							</div>
+						</div>
+		 		</div>
+	    	 </div> 
+	  </div>
+	  <div id="FOLLOW_UP" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">FOLLOW UP:</h3>
+			    </div>
+			    <div class="panel-body">
+					    <div class="row">
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="FOLLOW_UP_STATUS">STATUS:</label> 
+			                  		<select name="FOLLOW_UP_STATUS" id="FOLLOW_UP_STATUS" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="EFICAZ" >Eficaz</option>
+			               		 		<option value="INEFICAZ">Ineficaz</option> 	
+			            		  	</select>	
+							</div>
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="AVALIACAO_EFICACIA">Avaliação de Eficácia das Ações:</label>
+									<textarea id="AVALIACAO_EFICACIA" name="AVALIACAO_EFICACIA" value="" class="form-control" rows="4"></textarea>
+							</div>
+							<div class="form-group col-xs-12 col-md-6">
+									<label for="RESPONSAVEL_PREENCHIMENTO">Responsável pelo Preenchimento do RNCAC:</label>
+									<input type="zoom" class="form-control" name="RESPONSAVEL_PREENCHIMENTO" id="RESPONSAVEL_PREENCHIMENTO"
+					                                            data-zoom="{
+					                                                    'displayKey':'NOME',
+					                                                        'datasetId':'ds_usuario_ativos_NC',                                 
+					                                                        'placeholder': 'Nome Responsável Pelo Preenchimento',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NOME',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />   
+							</div>
+							<div class="form-group col-xs-12 col-md-6">
+									<label for="RESPONSAVEL_ENCERRAMENTO">Responsável pelo Encerramento:</label>
+									<input type="zoom" class="form-control" name="RESPONSAVEL_ENCERRAMENTO" id="RESPONSAVEL_ENCERRAMENTO"
+					                                            data-zoom="{
+					                                                    'displayKey':'NOME',
+					                                                        'datasetId':'ds_usuario_ativos_NC',                                 
+					                                                        'placeholder': 'Nome Responsável Pelo Preenchimento',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NOME',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />   
+							</div>
+							<!--  
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="OBSERVACAO_FOLLOW_UP">Observações:</label>
+									<textarea id="OBSERVACAO_FOLLOW_UP" name="OBSERVACAO_FOLLOW_UP" value="" class="form-control" rows="4"></textarea>
+							</div>
+							-->
+							<div class="form-group col-xs-12 col-md-12">
+								<label for="DATA_FINALIZACAO">Data Encerramento:</label>
+								<input type="text" name="DATA_FINALIZACAO" id="DATA_FINALIZACAO" value="" class="form-control" readonly="readonly" >
+							</div>
+							</div>
+		 		</div>
+	    	 </div> 
+	  </div>
+	  
+	  <input type="hidden" class="form-control" name="IDCHAMADO" id="IDCHAMADO">
+	  <input type="hidden" class="form-control" name="IDMOV_RM_NC" id="IDMOV_RM_NC">
+	  <input type="hidden" class="form-control" name="NUM_ATIVIDADE" id="NUM_ATIVIDADE">
+	  <input type="hidden" class="form-control" name="PRAZO_EMAIL" id="PRAZO_EMAIL">
+		<!-- ============================================================================================================================= -->
+</form>
+</div>
+</body>
+</html>

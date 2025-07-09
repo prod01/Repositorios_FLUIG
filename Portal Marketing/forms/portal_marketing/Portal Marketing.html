@@ -1,0 +1,309 @@
+
+	<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="custom.js"></script>
+</head>
+<body  onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+<input type="hidden" name="N_SOLICITACAO" id="N_SOLICITACAO">
+<input type="hidden" name="EMAIL_SOLICITANTE" id="EMAIL_SOLICITANTE">
+								
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>PORTAL MARKETING</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+					 <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                          <label for="NOMESOLICITANTE" id="lbl_name"class="control-label">Usuário</label>
+                          <input type="text" class="form-control" name="NOMESOLICITANTE" id="NOMESOLICITANTE"> <!-- Campo nome solicitante -->
+                     </div>
+                     <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                           <label for="EMAILSOLICITANTE" id="lbl_email" class="control-label">E-mail</label>
+                           <input type="text" class="form-control" name="EMAILSOLICITANTE" id="EMAILSOLICITANTE"> <!-- Campo email -->
+                     </div>  <!-- END Form-group -->
+					 <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                            <label for="SUB_CLASS_SERVICO" id="LB_SUB_CLASS_SERVICO" class="control-label">Sub Classe</label>
+                                        <!-- campo zoom realizar a consulta de dados de outro formulário através do fluig passando o nome do dataset e os campos (field) -->
+                                        <!-- mudar dataset 
+                                        teste:ds_tipo_solicitacoes
+                                        produção:ds_tipo_solicitação
+                                        --> 
+                              <input type="zoom" class="form-control" name="SUB_CLASS_SERVICO" id="SUB_CLASS_SERVICO" onchange="trocaOpcoes()"
+                                            data-zoom="{
+                                                    'displayKey':'nmIncidente',
+                                                        'datasetId':'class_serrviços_marketing',                                 
+                                                        'placeholder': 'Escolha a sub classe',
+                                                            'fields':[
+                                                            {
+                                                            'field':'nmIncidente',
+                                                            'label':'Incidente',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                /><!-- End Input zoom -->                        
+                      </div>  <!-- END Form-group -->
+                      <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                             <label for="CLASS_SERVICO" id="LABEL_CLASS_SERVICO" class="control-label">Classe de Serviço</label> 
+			                 <input type="text" class="form-control" name="CLASS_SERVICO" id="CLASS_SERVICO" readonly="readonly"> 	
+                           		  	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                      </div>    
+                      <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                           <label for="RAMALSOLICITANTE" id="lbl_ramal" class="control-label">Ramal / Telefone</label>
+                           <input type="text" mask="(00)90000-0000" class="form-control" name="RAMALSOLICITANTE" id="RAMALSOLICITANTE"> <!-- Campo nome solicitante -->
+                      </div>  
+                      <div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                           <label for="DESCRICAOSOLICITACAO" id="lbl_descricao" class="control-label">Descrição</label> 
+                           <textarea class="form-control" rows="5" name="DESCRICAOSOLICITACAO" id="DESCRICAOSOLICITACAO" ></textarea> <!-- Campo descricao do incidente -->		  		
+                      </div> <!-- End form-group-->
+		</div>
+		<!-- ============================================================================================================================= -->
+
+			
+		</div>
+	</div>
+	<div id="DADOS_SUPORTE" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">DADOS SUPORTE</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    
+			    	 			<div class=".form-group col-xs-12 col-md-3">
+                                    <label for="DATAABERTURA" id="lbl_data" class="control-label">Data de Abertura</label>			
+                                    <input type="text" class="form-control" name="DATAABERTURA" id="DATAABERTURA" readonly="readonly">
+                                </div>
+                            	<div class=".form-group col-xs-12 col-md-3"> 
+                                    <label for="SLAEXTENSO" id="lbl_SLAEXTENSO" class="control-label">Prazo de Atendimento / SLA</label>			
+                                    <input type="text" class="form-control" name="SLAEXTENSO" id="SLAEXTENSO" readonly="readonly"> 
+                                </div>
+                                <div class=".form-group col-xs-12 col-md-3"> <!-- start Form-group -->
+                                	<label for="" id="LABELVENCIMENTOSLA" class="control-label">Vencimento SLA</label>        
+			                        	<input type="text" class="form-control" name="VENCIMENTOSLA" id="VENCIMENTOSLA" readonly="readonly">  		 		  	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                            	</div>
+                            	<div class=".form-group col-xs-12 col-md-3"> <!-- start Form-group -->
+                                    <label for="DATAFECHAMENTO" id="LABELDATAFECHAMENTO" class="control-label">Data do Término</label>			
+                                    <input type="text" class="form-control" name="DATAFECHAMENTO" id="DATAFECHAMENTO" readonly="readonly"> <!-- Campo data do ticket -->
+                                </div><!-- END Form-group --> 
+                                <!--
+                                <div class=".form-group col-xs-12 col-md-2"> 
+                                	<label for="STATUS" id="LABELSTATUS" class="control-label">Status</label> 
+                                 	<select name="STATUS" id="STATUS" class="form-control" onclick="">	
+			                           		 		<option value="ABERTO">Aberto</option>
+			                           		 		<option value="PAUSADO" >Pausado </option>
+			                           		 		<option value="FECHADO">Fechado</option>
+                           		  	</select>	
+										
+                            	</div>
+                            	-->	
+                            	
+                            	<div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                	<label for="SLAGESTOR" id="LABELSLAGESTOR" class="control-label">SLA</label> 
+                                 	<select name="SLAGESTOR" id="SLAGESTOR" class="form-control" onchange="alerta()" >	
+			                           		 		<option value="0" selected></option>
+			                           		 		<option value="5">05 Horas Úteis </option>
+			                           		 		<option value="8" >08 Horas Úteis</option>
+			                           		 		<option value="12">12 Horas Úteis</option>
+			                           		 		<option value="15">15 Horas Úteis</option>
+			                           		 		<option value="20">20 Horas Úteis</option>
+			                           		 		<option value="24">24 Horas Úteis</option>
+			                           		 		<option value="30">30 Horas Úteis</option>
+			                           		 		<option value="36">04 Dias Úteis</option>
+			                           		 		<option value="45">05 Dias Úteis</option>
+			                           		 		<option value="63">07 Dias Úteis</option>
+			                           		 		<option value="72">08 Dias Úteis</option>
+			                           		 		<option value="90">10 Dias Úteis</option>
+			                           		 		<option value="108">12 Dias Úteis</option>
+			                           		 		<option value="126">14 Dias Úteis</option>
+			                           		 		<option value="144">16 Dias Úteis</option>
+			                           		 		<option value="162">18 Dias Úteis</option>
+			                           		 		<option value="180">20 Dias Úteis</option>
+			                           		 		<option value="225">25 Dias Úteis</option>
+			                           		 		<option value="270">30 Dias Úteis</option>
+                           		  	</select>	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                            	</div><!-- End form-group--> 
+                                <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                	<label for="TRANSFERECHAMADO" id="LABELTRANSFERECHAMADO" class="control-label">Troca Técnico</label> 
+                           		  	<input type="zoom" class="form-control" name="TRANSFERECHAMADO" id="TRANSFERECHAMADO" 
+                                            data-zoom="{
+                                                    'displayKey':'FULL_NAME',
+                                                        'datasetId':'ds_tecnicos_marketing',                                 
+                                                        'placeholder': 'Escolha o Técnico',
+                                                            'fields':[
+                                                            {
+                                                            'field':'FULL_NAME',
+                                                            'label':'Nome',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                      >	
+                           		  	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                            	</div>
+                                <div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                    <label for="RESOLUCAO" id="lbl_solucao" class="control-label">Solução</label>  
+                                    <textarea class="form-control" rows="5" name="RESOLUCAO" id="RESOLUCAO"></textarea> <!-- Campo solução do incidente -->		  		
+                                </div> <!-- End form-group--> 
+                                <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                    <label for="NOMETECNICO" id="lbl_responsavel">Nome Resp.</label>			
+                                    <input type="text" class="form-control" name="NOMETECNICO" id="NOMETECNICO"> <!-- Campo nome usuario suporte-->
+                                </div>      		
+                                <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                    <label for="EMAILTECNICO" id="lbl_resp_email">Email Resp.</label>			
+                                    <input type="text" class="form-control" name="EMAILTECNICO" id="EMAILTECNICO"> <!-- Campo email usuario suporte -->
+                                </div><!-- END Form-group -->
+                               
+			   </div>
+	    	</div> 
+	  	</div>
+	  </div>
+	  	<div id="VALIDAR_SOLUÇÃO_MKT" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">VALIDAÇÃO MARKETING </h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    
+			    				 <div class=".form-group col-xs-12 col-md-12"> 
+                                	<label for="VALIDACAO_MKT" id="LB_VALIDACAO_MKT" class="control-label">Status</label> 
+                                 	<select name="VALIDACAO_MKT" id="VALIDACAO_MKT" class="form-control" onchange="apareceComentario()">	
+			                           		 		<option value="NULO"> </option>
+			                           		 		<option value="SIM" >Layout Validado</option>
+			                           		 		<option value="NAO">Layout a Corrigir</option>
+                           		  	</select>	
+										
+                            	</div>
+			    	 
+	                            <div class=".form-group col-xs-12 col-md-12">
+	                                <label for="COMENTARIO_VALIDACAO_MKT" id="LB_COMENTARIO_VALIDACAO_MKT"class="control-label">Comentário</label>
+	                                <textarea class="form-control" rows="3" name="COMENTARIO_VALIDACAO_MKT" id="COMENTARIO_VALIDACAO_MKT" ></textarea>
+	                            </div>
+                 </div>
+            </div>                    
+			
+	    </div> 
+	  </div>
+	  
+	<div id="FEEDBACK_SOLCIITACAO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">FEEDBACK SOLICITAÇÃO</h3>
+			    </div>
+			    <div class="panel-body">                  
+				<div class="row">
+                                <div class=".form-group col-xs-12 col-md-12"> 
+                                	<label for="AVALIACAO_USUARIO" id="LB_AVALIACAO_USUARIO" class="control-label">Status</label> 
+                                 	<select name="AVALIACAO_USUARIO" id="AVALIACAO_USUARIO" class="form-control" onchange="apareceComentario()">	
+			                           		 		<option value="NULO"> </option>
+			                           		 		<option value="SIM" >Sim, o material está de acordo com a solicitação</option>
+			                           		 		<option value="NAO">Não, o material não está de acordo com a solicitação</option>
+                           		  	</select>	
+										
+                            	</div>
+	                            <div class=".form-group col-xs-12 col-md-12">
+	                                <label for="COMENTARIO_AVALIACAO_USER" id="LB_COMENTARIO_AVALIACAO_USER"class="control-label">Comentário</label>
+	                                <textarea class="form-control" rows="3" name="COMENTARIO_AVALIACAO_USER" id="COMENTARIO_AVALIACAO_USER" ></textarea>
+	                            </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="REVISAO_MATERIAL" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">REVISÃO DO MATERIAL</h3>
+			    </div>
+			    <div class="panel-body">                  
+				<div class="row">
+                                
+                            	<div class=".form-group col-xs-12 col-md-3"> 
+                                    <label for="DATA_REVISAO" id="LB_DATA_REVISAO" class="control-label">Data Revisão</label>			
+                                    <input type="text" class="form-control" name="DATA_REVISAO" id="DATA_REVISAO" readonly="readonly">
+                                </div>
+                                <div class=".form-group col-xs-12 col-md-3"> 
+                                    <label for="SLA_REVISAO" id="LB_SLA_REVISAO" class="control-label">Prazo de Revisão / SLA</label>			
+                                    <input type="text" class="form-control" name="SLA_REVISAO" id="SLA_REVISAO" readonly="readonly"> 
+                                </div>
+                                <div class=".form-group col-xs-12 col-md-3"> <!-- start Form-group -->
+                                	<label for="VENCIMENTO_REVISAO" id="LB_VENCIMENTO_REVISAO" class="control-label">Vencimento SLA</label>        
+			                        	<input type="text" class="form-control" name="VENCIMENTO_REVISAO" id="VENCIMENTO_REVISAO" readonly="readonly">  		 		  	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                            	</div>
+                            	<div class=".form-group col-xs-12 col-md-3"> <!-- start Form-group -->
+                                	<label for="FINALIZACAO_REVISAO" id="LB_FINALIZACAO_REVISAO" class="control-label">Fim Revisão</label>        
+			                        	<input type="text" class="form-control" name="FINALIZACAO_REVISAO" id="FINALIZACAO_REVISAO" readonly="readonly">  		 		  	
+								<!-- campos com a infrmaoção de quem abriu um chamado e as infromções de resolução  -->			
+                            	</div>
+	                            <div class=".form-group col-xs-12 col-md-12">
+	                                <label for="COMENT_REVISAO_MATERIAL" id="LB_COMENT_REVISAO_MATERIAL"class="control-label">Comentário</label>
+	                                <textarea class="form-control" rows="3" name="COMENT_REVISAO_MATERIAL" id="COMENT_REVISAO_MATERIAL" ></textarea>
+	                            </div>
+	                            
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="FECHAMENTO_SOLCITACAO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">FIM DA SOLICTAÇÃO</h3>
+			    </div>
+			    <div class="panel-body">                  
+				<div class="row">
+                                
+                            	<div class=".form-group col-xs-12 col-md-6"> 
+                                    <label for="FECHAMENTO_SOLICITACAO" id="LB_FECHAMENTO_SOLICITACAO" class="control-label">Fim da Solicitação</label>			
+                                    <input type="text" class="form-control" name="FECHAMENTO_SOLICITACAO" id="FECHAMENTO_SOLICITACAO" readonly="readonly">
+                                </div>
+              
+                                <div class=".form-group col-xs-12 col-md-6"> 
+                                	<label for="STATUS_SOLICITACAO" id="LABELSTATUS" class="control-label">Status</label> 
+                                 	<select name="STATUS_SOLICITACAO" id="STATUS_SOLICITACAO" class="form-control" onchange="function vencimentoSLA()">	
+			                           		 		<option value="ABERTO">Aberto</option>
+			                           		 		<option value="FECHADO">Fechado</option>
+                           		  	</select>	
+										
+                            	</div>
+                            	<div class=".form-group col-xs-12 col-md-12">
+	                                <label for="COMENT_FECHAMENTO_SOLCITACAO" id="LB_COMENT_FECHAMENTO_SOLCITACAO"class="control-label">Comentário</label>
+	                                <textarea class="form-control" rows="3" name="COMENT_FECHAMENTO_SOLCITACAO" id="COMENT_FECHAMENTO_SOLCITACAO" ></textarea>
+	                            </div>
+                            	
+                                
+			   </div>
+	    </div> 
+	  </div>
+	</div>					
+	
+
+		<!-- ============================================================================================================================= -->
+			
+                               		<input type="hidden" name="CHAPATECNICO" id="CHAPATECNICO">
+                                	<input type="hidden" name="PAPEL" id="PAPEL">
+                                	<input type="hidden" class="form-control"  name="SLA" id="SLA"> <!-- Campo sla-->
+                                	<input type="hidden" class="form-control" name="IDCHAMADO" id="IDCHAMADO">
+                                	<input type="hidden" class="form-control" name="NUM_ATIVIDADE" id="NUM_ATIVIDADE">
+                                	<input type="hidden" class="form-control" name="NUM_PROX_ATIVIDADE" id="NUM_PROX_ATIVIDADE">
+                                	
+  </form>
+                                	
+                                	
+</div>
+</body>
+</html>

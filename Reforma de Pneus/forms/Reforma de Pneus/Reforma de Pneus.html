@@ -1,0 +1,267 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+	 <script type="text/javascript" src="/webdesk/vcXMLRPC.js"> </script>
+</head>
+<body >
+<div class="fluig-style-guide">
+<form name="form" role="form">
+		<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>DADOS DA SOLICITAÇÃO</h3>
+			    </div>
+			    
+			    <div class="panel-body">
+			    <!-- Nf de remessa, informações do pneu  , informações do clifor ,  -->
+			    
+			    <div class="row">
+					
+					<div class="form-group col-xs-12 col-md-4">
+									<label for="IDOBJOF">Identificador do Pneu:</label>
+									<input type="zoom" class="form-control" name="IDOBJOF" id="IDOBJOF"
+					                                            data-zoom="{
+					                                                    'displayKey':'IDOBJOF',
+					                                                        'datasetId':'ds_maquina_reforma_pneu',                                 
+					                                                        'placeholder': '',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'IDOBJOF',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />   
+							</div>
+							<div class="form-group col-xs-12 col-md-4">
+								<label for="FABRICANTE">Fabricante:</label>
+								<input type="text" name="FABRICANTE" id="FABRICANTE" value="" class="form-control" readonly="readonly" >
+								<input type="hidden" class="form-control" name="IDTIPOOBJ" id="IDTIPOOBJ">
+								<input type="hidden" class="form-control" name="INDICE_ACOMPANHAMENTO" id="INDICE_ACOMPANHAMENTO">
+								<input type="hidden" class="form-control" name="IDHISTINDICADOR" id="IDHISTINDICADOR">
+								<input type="hidden" class="form-control" name="QTDEREFORMA" id="QTDEREFORMA">
+								<input type="hidden" class="form-control" name="DATAMEDICAO" id="DATAMEDICAO">
+							</div>
+							<div class="form-group col-xs-12 col-md-4">
+								<label for="NUMERO_NF">Numero da NF Remessa:</label>
+								<input type="zoom" class="form-control" name="NUMERO_NF" id="NUMERO_NF"
+					                                            data-zoom="{
+					                                                    'displayKey':'NUMEROMOV',
+					                                                        'datasetId':'ds_nf_remessa',                                 
+					                                                        'placeholder': '',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NUMEROMOV',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />  
+							</div>
+				</div>
+			    <div class="row">			
+				
+							<div class="form-group col-xs-12 col-md-4">
+									<label for="NOME_CLIFOR">Nome do Fornecedor:</label>
+									<input type="zoom" class="form-control" name="NOME_CLIFOR" id="NOME_CLIFOR"
+					                                            data-zoom="{
+					                                                    'displayKey':'NOMEFANTASIA',
+					                                                        'datasetId':'ds_clifor_reforma_pneu',                                 
+					                                                        'placeholder': '',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NOMEFANTASIA',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />   
+							</div>
+							<div class="form-group col-xs-12 col-md-4">
+								<label for="COD_CLIFOR">Codígo do Fornecedor:</label>
+								<input type="text" name="COD_CLIFOR" id="COD_CLIFOR" value="" class="form-control" readonly="readonly" >
+							</div>
+							<div class="form-group col-xs-12 col-md-4">
+								<label for="CNPJ_CLIFOR">CNPJ Fornecedor:</label>
+								<input type="text" name="CNPJ_CLIFOR" id="CNPJ_CLIFOR" value="" class="form-control" readonly="readonly" >
+							</div>
+				
+				</div>	
+			  </div>
+		</div>
+		<div id="VALIDACAO_LAUDO" >	
+				<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">VALIDAÇÃO DO LAUDO DE REFORMA:</h3>
+				    </div>
+				    <div class="panel-body">
+				    
+					     <div class="form-group col-xs-12 col-md-12">
+									<label for="VALIDACAO_LAUDO">Validação Laudo:</label> 
+			                  		<select name="VALIDACAO_LAUDO" id="VALIDACAO_LAUDO" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="APROVADA" >Aprovado</option>
+			               		 		<option value="REPROVADA">Reprovado</option> 	
+			            		  	</select>	
+							</div>
+							<div class="form-group col-xs-12 col-md-12">
+									<label for="OBS_APRV_LAUDO">Observações:</label>
+									<textarea id="OBS_APRV_LAUDO" name="OBS_APRV_LAUDO" value="" class="form-control" rows="4"></textarea>
+							</div>
+					    
+			    		</div> 
+				    
+		    	 </div> 
+		  </div>
+		  
+		  <div id="DESCARTE_DO_PNEU" >	
+				<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">DESCARTE DO PNEU:</h3>
+				    </div>
+				    <div class="panel-body">
+				    
+				    		<div class='form-group col-xs-12 col-md-12'>
+									<label for="ANEXO_LAUDO">Anexo Laudo:</label>
+									<input type="button" class="form-control" name="ANEXO_LAUDO" id="ANEXO_LAUDO" value="Clique para anexar" onclick="showCamera()">
+							</div>
+					    
+					    	 <div class="form-group col-xs-12 col-md-12">
+									<label for="MOTIVO_DESCARTE">Motivo do Descarte:</label>
+									<textarea id="MOTIVO_DESCARTE" name="MOTIVO_DESCARTE" value="" class="form-control" rows="4"></textarea>
+							</div>
+						
+			    		</div> 
+				    
+		    	 </div> 
+		  </div>
+		  
+		  <div id="INFORMAR_OC" >	
+				<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">INFORMAR OC:</h3>
+				    </div>
+				    <div class="panel-body">
+				    
+				      <!--  INFORMAR OC APROVADA, COM AS INFORMAÇOES DA OC   -->
+				      
+				      <div class="form-group col-xs-12 col-md-6">
+									<label for="OC_APROVADA">Ordem de Compra:</label>
+									<input type="zoom" class="form-control" name="OC_APROVADA" id="OC_APROVADA"
+					                                            data-zoom="{
+					                                                    'displayKey':'NUMEROMOV',
+					                                                        'datasetId':'ds_oc_reforma',                                 
+					                                                        'placeholder': ' ',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NUMEROMOV',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />   
+							</div>
+							
+							 <div class="form-group col-xs-12 col-md-6">
+									<label for="PRAZO_RETORNO">Prazo Retorno da Reforma:</label>
+									<input type="date" name="PRAZO_RETORNO" id="PRAZO_RETORNO" value="" class="form-control"  >
+								</div>
+					    
+			    		</div> 
+				    
+		    	 </div> 
+		  </div>
+		  <div id="VALIDACAO_REFORMA" >	
+				<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">VALIDACAO DA REFORMA:</h3>
+				    </div>
+				    <div class="panel-body">
+					     <div class="form-group col-xs-12 col-md-4">
+									<label for="INFORMACAO_REFROMA">Validação Laudo:</label> 
+			                  		<select name="INFORMACAO_REFROMA" id="INFORMACAO_REFROMA" class="form-control" onchange="blockCampos()">
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="REFORMA" >Reforma</option>
+			               		 		<option value="MANUTENCAO">Manutenção</option> 	
+			            		  	</select>	
+							</div>
+					    <div class="form-group col-xs-12 col-md-4">
+							<label for="NOVA_MEDIDA">Medida Pos Reforma:</label>
+							<input type="number" name="NOVA_MEDIDA" id="NOVA_MEDIDA" value="" class="form-control" >
+						</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="QNT_REFORMA">Numero de Reforma:</label>
+							<input type="text" name="QNT_REFORMA" id="QNT_REFORMA" value="" class="form-control" readonly="readonly" >
+						</div>
+						<div class="form-group col-xs-12 col-md-6">
+							<label for="NF_RETORNO">Nº Nota Fisca de Retorno:</label>
+							<input type="zoom" class="form-control" name="NF_RETORNO" id="NF_RETORNO"
+					                                            data-zoom="{
+					                                                    'displayKey':'NUMEROMOV',
+					                                                        'datasetId':'ds_nf_retorno',                                 
+					                                                        'placeholder': '',
+					                                                            'fields':[
+					                                                            {
+					                                                            'field':'NUMEROMOV',
+					                                                            'label':'',
+					                                                            'standard':'true'
+					                                                            }
+					                                                        ]
+					                                                    }"
+					                                        />  
+						</div>
+						<div class="form-group col-xs-12 col-md-6">
+							<label for="SL_PORTAL_NF">SL Portal de Notas:</label>
+							<input type="text" name="SL_PORTAL_NF" id="SL_PORTAL_NF" value="" class="form-control" >
+						</div>
+						<div class='form-group col-xs-12 col-md-12'>
+									<label for="ANEXO_EVIDENCIAS">Anexo Nota Fiscal:</label>
+									<input type="button" class="form-control" name="ANEXO_EVIDENCIAS" id="ANEXO_EVIDENCIAS" value="Clique para anexar" onclick="showCamera()">
+						</div>
+					    
+			    		</div> 
+				    
+		    	 </div> 
+		  </div>
+		  <!-- 
+		  <div id="ALTERACAO_MEDIDAS" >	
+				<div class="panel panel-primary">
+				    <div class="panel-heading">
+				        <h3 class="panel-title">ALTERACAO DAS MEDIDAS:</h3>
+				    </div>
+				    <div class="panel-body">
+				    
+				       <div class="form-group col-xs-12 col-md-6">
+									<label for="VALIDACAO_ALT_MILI">Alteração da Milimetragem:</label> 
+			                  		<select name="VALIDACAO_ALT_MILI" id="VALIDACAO_ALT_MILI" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="SIM" >ALTERADO</option>
+			               		 		<option value="NÃO">INALTERADO</option> 	
+			            		  	</select>	
+							</div>
+							<div class="form-group col-xs-12 col-md-6">
+									<label for="VALIDACAO_ALT_REF">Alteração de Reforma:</label> 
+			                  		<select name="VALIDACAO_ALT_REF" id="VALIDACAO_ALT_REF" class="form-control" >
+			               		 		<option value="VAZIO" ></option>
+			               		 		<option value="SIM" >ALTERADO</option>
+			               		 		<option value="NÃO">INALTERADO</option> 		
+			            		  	</select>	
+							</div>
+					    
+			    		</div> 
+				    
+		    	 </div> 
+		  </div>
+		   -->
+</form>
+</div>
+</body>
+</html>
