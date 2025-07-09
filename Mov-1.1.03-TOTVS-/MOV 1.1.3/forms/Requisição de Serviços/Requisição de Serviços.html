@@ -1,0 +1,315 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<script type="text/javascript" src="script/script.js" ></script>
+</head>
+<body>
+<div class="fluig-style-guide">
+<form name="form" role="form">
+
+	<div class="panel panel-default">
+		
+		<div class="panel-heading">
+			<h3 class="panel-title"><i class="fluigicon fluigicon-tests-central icon-sm"></i> REQUISIÇÃO DE SERVIÇOS</h3>
+		</div>
+		
+			
+		<div class="panel-body">
+
+			<div class="panel panel-primary">
+			<div class="panel-heading">
+		   		 <h3 class="panel-title">Item</h3>
+			</div>
+			
+			<div class="panel-body">
+	
+		
+			<div class="col-xs-12 col-md-4">
+					
+						<label for="LABELNOMEPRD">Item :</label>								
+						<input 
+											type="zoom"
+										    id = "NOMEPRD"
+										    name="NOMEPRD"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'NOMEFANTASIA',
+										        'datasetId':'ds_consulta_servicos',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'NOMEFANTASIA',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+				</div>
+				<div class="col-xs-12 col-md-4">
+			
+					
+						<label for="LABELCODIGOPRD">Cod. Serviço:</label>								
+						<input type="zoom"
+										    id = "CODIGOPRD"
+										    name="CODIGOPRD"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'CODIGOPRD',
+										        'datasetId':'ds_consulta_servicos',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'CODIGOPRD',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+						
+				</div>
+				<div class="col-xs-12 col-md-4">
+			
+					
+						<label for="VALOR">Valor do Item:</label>								
+						<input type="text" id="VALOR"  name="VALOR" class="form-control">
+						
+				</div>
+				
+				<br>
+				<br>
+				<div class="col-xs-12 col-md-3">
+						
+						<label for="LABELNOMELOCAL">Local de Estoque:</label>								
+						<input 
+											type="zoom"
+										    id = "NOMELOCAL"
+										    name="NOMELOCAL"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'NOME',
+										        'datasetId':'ds_local_estoque',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'NOME',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+				</div>
+				
+				<div class="col-xs-12 col-md-3">
+						
+						<label for="LABELCODLOCAL">Cod. Local de Estoque:</label>								
+						<input 
+											type="zoom"
+										    id = "CODLOCAL"
+										    name="CODLOCAL"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'CODLOC',
+										        'datasetId':'ds_local_estoque',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'CODLOC',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+				</div>
+				<div class="col-xs-12 col-md-3">
+					
+						<label for="POSSUIORCAMENTO" id="LABELPOSSUIORCAMENTO" >Possui Cotação :</label>							
+                                 	<select name="POSSUIORCAMENTO" id="POSSUIORCAMENTO"class="form-control" onchange="alerta()" >	
+			                           		 		<option value="NULO"></option>
+			                           		 		<option value="01">SIM </option>
+			                           		 		<option value="02">NÂO</option>
+                           		  	</select>
+						
+				</div>
+				<div class="col-xs-12 col-md-3">
+						<label for="QUANTIDADE">Quantidade:</label>								
+						<input type="text" id="QUANTIDADE"  name="QUANTIDADE" class="form-control">
+						
+				</div>
+				</div>
+				</div>
+				
+				<br>
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					    <h3 class="panel-title">Rateio</h3>
+					</div>
+				<div class="panel-body">
+						<div class="col-xs-12 col-md-6">
+					
+						<label for="LABELCODCCUSTO">Cod. Centro de Custo:</label>								
+						<input 				
+											
+											type="zoom"
+										    id = "CODCCUSTO"
+										    name="CODCCUSTO"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'CODCCUSTO',
+										        'datasetId':'ds_centro_de_custo',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'CODCCUSTO',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+						</div>
+						
+						<div class="col-xs-12 col-md-6">
+						
+						<label for="NOMECCUSTO" id="LABELNOMECCUSTO">Nome Centro de Custo:</label>																
+						<input 
+											type="zoom"
+										    id = "NOMECCUSTO"
+										    name="NOMECCUSTO"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'NOME',
+										        'datasetId':'ds_centro_de_custo',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'NOME',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+						
+				</div>
+				<div class="col-xs-12 col-md-6" >
+						<label for="LABELNOMEDEPARTAMENTO">Cod. Departamento:</label>
+						<input 
+											type="zoom"
+										    id = "CODDEPARTAMENTO"
+										    name="CODDEPARTAMENTO"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'CODDEPARTAMENTO',
+										        'datasetId':'ds_departamento',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'CODDEPARTAMENTO',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+				</div>
+				
+				<div class="col-xs-12 col-md-6">
+					
+						<label for="LABELNOMEDEPARTAMENTO">Departamento:</label>														
+						<input 
+											type="zoom"
+										    id = "NOMEDEPARTAMENTO"
+										    name="NOMEDEPARTAMENTO"
+										    class="form-control"
+										    value=""
+										    
+										    data-zoom="{
+										        'displayKey':'NOME',
+										        'datasetId':'ds_departamento',
+										        'placeholder':'',
+										        'fields':[
+										            {
+										               'field':'NOME',
+										               'label':'Codigo',
+										              'standard':'true'
+										            }						           
+										        ]
+										     }"/>
+						
+				</div>		
+				</div>
+				</div>
+				
+				
+			
+				<br>
+				
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+					    <h3 class="panel-title">Informações adicionais</h3>
+					</div>
+				<div class="panel-body">
+				
+				<div class="col-xs-12 col-md-4">
+			
+					
+						<label for="SOLICITANTE">Solicitante:</label>								
+						<input type="text" id="SOLICITANTE"  name="SOLICITANTE" class="form-control">
+						
+				</div>
+				<div class="col-xs-12 col-md-4">
+			
+					
+						<label for="LOCALENTREGA">Local de entrega:</label>								
+						<input type="text" id="LOCALENTREGA"  name="LOCALENTREGA" class="form-control">
+						
+				</div>
+				<div class="col-xs-12 col-md-4">
+			
+					
+						<label for="HISTORICO">Historico:</label>								
+						<input type="text" id="HISTORICO"  name="HISTORICO" class="form-control">
+						
+				</div>
+				
+				<br>
+				<br>
+				
+				
+				<div class="col-xs-12 col-md-12">
+			
+					
+						<label for="CAMPOSCOMPLEMENTARES">Campos complementares (Observações):</label>								
+						<input type="text" id="CAMPOSCOMPLEMENTARES"  name="CAMPOSCOMPLEMENTARES" class="form-control">
+						
+				</div>
+				<div>
+						<input type="hidden" id="IDPRD"  name="IDPRD" class="form-control">
+				</div>
+				
+					</div>				
+				</div>	
+			</div>				
+		</div>		
+	
+</form>
+</div>
+</body>
+</html>

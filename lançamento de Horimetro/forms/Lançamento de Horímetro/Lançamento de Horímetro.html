@@ -1,0 +1,75 @@
+<html>
+<head>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script language="javascript"> function disablePullToRefresh(){return true; }</script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="Script/Script.js" ></script>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+</head>
+<body>
+<div class="fluig-style-guide">
+<form name="form" role="form">
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">LANÇAMENTO DE HORÍMETRO</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+			<div class="col-xs-12 col-md-3">
+				<label for="IDMAQUINA">1º Identificador:</label>
+				<input 
+					type="zoom"
+				    id = "IDMAQUINA"
+				    name="IDMAQUINA"
+				    class="form-control"
+				    value=""
+				    
+				    data-zoom="{
+				        'displayKey':'OBJ',
+				        'datasetId':'ds_Lancamento_Horimetro_Obj',
+				        'placeholder':'',
+				        'fields':[
+				            {
+				               'field':'OBJ',
+				               'label':'Codigo',
+				               'standard':'true'
+				            }						           
+				        ]
+				     }"/>
+			 </div>
+		
+	         <div class=".form-group col-xs-12 col-md-3"> 
+		         <label for="DATACOLETA" id="LABELDATACOLETA" class="control-label">Data Coleta:</label>
+		         <input type="text" class="form-control" name="DATACOLETA" id="DATACOLETA" readonly="readonly">
+	         </div> 
+	      
+	         <div class=".form-group col-xs-12 col-md-3"> 
+		         <label for="VALORMEDIDOR1" id="lABELVALORMEDIDOR1" class="control-label">Horímetro:</label>
+		         <input type="number" class="form-control" name="VALORMEDIDOR1" id="VALORMEDIDOR1">
+	    	 </div>
+	      
+	         <div class=".form-group col-xs-12 col-md-3"> 
+		         <label for="VALORMEDIDOR5" id="lABELVALORMEDIDOR5" class="control-label">Diesel/Gasolina/Alcool:</label>
+		         <input type="number" class="form-control" name="VALORMEDIDOR5" id="VALORMEDIDOR5" readonly="readonly">
+	    	 </div>
+		</div> 
+
+	</div>
+	</div>
+	
+	<input type="hidden" name="VALORULTIMAMEDICAO" id="VALORULTIMAMEDICAO">
+	<input type="hidden" name="VALORMAXMAMEDICAO" id="VALORMAXMAMEDICAO">
+	<input type="hidden" name="DATAULTLANCAMENTO" id="DATAULTLANCAMENTO">
+	<input type="hidden" name="IDHISTINDICADOR" id="IDHISTINDICADOR">
+	<input type="hidden" name="USUARIOLOGADO" id="USUARIOLOGADO">
+	<input type="hidden" name="USAINDICADORUSO5" id="USAINDICADORUSO5">
+	
+</form>
+</div>
+</body>
+</html>
