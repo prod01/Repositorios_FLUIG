@@ -1,0 +1,751 @@
+<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css" />
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="carregamento(document.getElementById('TIPO_ENTIDADE'), document.getElementById('FichaJuridica'), document.getElementById('FichaFisica'))">
+	<div class="fluig-style-guide">
+		<form name="form" role="form">
+			<input type="hidden" name="DATASOLICITACAO" id="DATASOLICITACAO" />
+			<input type="hidden" name="HORASOLICITACAO" id="HORASOLICITACAO" />
+			<input type="hidden" name="DATAFINALIZACAO" id="DATAFINALIZACAO" />
+			<input type="hidden" name="NUMATIVIDADE" id="NUMATIVIDADE" />
+			<input type="hidden" name="TIPO_DE_CADASTRO" id="TIPO_DE_CADASTRO" />
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>Dados da Solicitação</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="NOME_SOLICITANTE">Nome do solicitante:</label>
+							<input type="text" id="NOME_SOLICITANTE" name="NOME_SOLICITANTE" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="FONE_SOLICITANTE">Telefone:</label>
+							<input type="text" id="FONE_SOLICITANTE" name="FONE_SOLICITANTE" mask="(00) 90000-0000" maxlength="16" value="" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="EMAIL_SOLICITANTE">Email:</label>
+							<input type="mail" id="EMAIL_SOLICITANTE" name="EMAIL_SOLICITANTE" value="" class="form-control">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-6 col-md-6">
+							<label for="NOMECONTATO">Nome do contato na Tradimaq (Comprador/Vendedor):</label>
+							<input type="zoom" id="NOMECONTATO" name="NOMECONTATO" class="form-control" value="" data-zoom="{
+				        'displayKey':'NOME',
+				        'datasetId':'ds_cadastro_clifor_contato_tradimaq',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'NOME',
+				               'label':'Nome',
+				              'standard':'true'
+				            }
+				        ]
+				     }" />
+						</div>
+						<div class="form-group col-xs-6 col-md-6">
+							<label for="EMAILCONTATO">Email:</label>
+							<input type="zoom" id="EMAILCONTATO" name="EMAILCONTATO" class="form-control" value="" data-zoom="{
+				        'displayKey':'EMAIL',
+				        'datasetId':'ds_cadastro_clifor_contato_tradimaq',
+				        'placeholder':'Selecione...',
+				        'fields':[
+				            {
+				               'field':'EMAIL',
+				               'label':'E-mail',
+				              'standard':'true'
+				            }
+				        ]
+				     }" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="TIPO_CADASTRO">Tipo de cadastro:</label>
+							<select class="form-control" name="TIPO_CADASTRO" id="TIPO_CADASTRO" onchange="categoriaFornecedor(this, document.getElementById('CATEGORIAFORNECEDOR'))">
+								<option value="0">Selecione...</option>
+								<option value="Cliente">Cliente</option>
+								<option value="Fornecedor">Fornecedor</option>
+								<option value="Colaborador">Colaborador</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="TIPO_ENTIDADE">Entidade:</label>
+							<select class="form-control" name="TIPO_ENTIDADE" id="TIPO_ENTIDADE" onchange="carregamento(document.getElementById('TIPO_ENTIDADE'), document.getElementById('FichaJuridica'), document.getElementById('FichaFisica'));setDadosBancarios();setCamposTipo();consultaEstado()">
+								<option value="0">Selecione...</option>
+								<option value="Pessoa-Fisica">Pessoa Física</option>
+								<option value="Pessoa-Juridica">Pessoa Jurídica</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="CATEGORIAFORNECEDOR">Categoria do Fornecedor:</label>
+							<select class="form-control" name="CATEGORIAFORNECEDOR" id="CATEGORIAFORNECEDOR" disabled>
+								<option value="0">Selecione...</option>
+								<option value="Fabricante">Fabricante</option>
+								<option value="Revendedor/Distribuidor">Revendedor/Distribuidor</option>
+								<option value="Prestador de serviço">Prestador de serviço</option>
+							</select>
+						</div>
+						<input type="hidden" name="TipoPessoa" id="TipoPessoa" value="">
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-6 col-md-6">
+							<label for="TPCLIFOR">Ramo de Atividade:</label>
+							<input type="hidden" class="form-control" name="IDTPCLIFOR" id="IDTPCLIFOR">
+							<input type="zoom" class="form-control" name="TPCLIFOR" id="TPCLIFOR" data-zoom="{
+		                                                    'displayKey':'DESCRICAO',
+		                                                        'datasetId':'ds_ramo_atividade',                                 
+		                                                        'placeholder': 'Selecione...',
+		                                                            'fields':[
+		                                                            {
+		                                                            'field':'DESCRICAO',
+		                                                            'label':'',
+		                                                            'standard':'true'
+		                                                            }
+		                                                        ]
+		                                                    }" />
+						</div>
+						<div class="form-group col-xs-12 col-sm-6 col-md-6">
+							<label for="ANEXOCLIFOR">Anexar Dados do Cli/For:</label>
+							<input type="button" class="form-control" name="ANEXOCLIFOR" id="ANEXOCLIFOR" value="Clique para anexar" onclick="showCamera()">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-12 col-md-12">
+							<label for="OBSCLIFOR">Observação:</label>
+							<textarea id="OBSCLIFOR" name="OBSCLIFOR" rows="4" class="form-control"></textarea>
+						</div>
+					</div>
+					<!-- ============================================================================================================================= -->
+					<div class="row">
+						<div class="panel panel-primary" id="FichaJuridica">
+							<div class="panel-heading">
+								<h3 class="panel-title"><i class="fluigicon fluigicon-adduser icon-sm"></i> Ficha Cadastral - Pessoa Jurídica</h3>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="CNPJ_PJ">CNPJ:</label>
+										<input type="text" name="CNPJ_PJ" id="CNPJ_PJ" value="" mask="00.000.000/0000-00" class="form-control" onblur="pesquisaCNPJ(this.value);" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="RAZAO_PJ">Razão social:</label>
+										<input type="text" name="RAZAO_PJ" id="RAZAO_PJ" value="" class="form-control" >
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="NOMEF_PJ">Nome Fantasia:</label>
+										<input type="text" name="NOMEF_PJ" id="NOMEF_PJ" value="" class="form-control">
+									</div>
+								</div>
+		<!--  ================================================================================================================================================================ -->
+							
+		<!--  ================================================================================================================================================================ -->
+		
+								<div class="row">
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="IE_PJ">Inscrição Estadual:</label>
+										<input type="text" name="IE_PJ" id="IE_PJ" value="" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="IM_PJ">Inscrição Municipal:</label>
+										<input type="text" name="IM_PJ" id="IM_PJ" value="" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="EMAILXML_PJ">E-mail para XML:</label>
+										<input type="text" name="EMAILXML_PJ" id="EMAILXML_PJ" value="" class="form-control">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="FIXO_PJ">Nº do telefone:</label>
+										<input type="text" name="FIXO_PJ" id="FIXO_PJ" value="" mask="(00) 90000-0000" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="CEL_PJ">Nº do telefone Celular:</label>
+										<input type="text" name="CEL_PJ" id="CEL_PJ" value="" mask="(00) 90000-0000" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="EMAIL_PJ">E-mail para envio de OC:</label>
+										<input type="text" name="EMAIL_PJ" id="EMAIL_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="NOMECONTATO_PJ">Nome de Contato:</label>
+										<input type="text" name="NOMECONTATO_PJ" id="NOMECONTATO_PJ" value="" class="form-control">
+									</div>
+								</div>
+								<!-- ============================================================================================================================= -->
+								<hr>
+								<!-- ============================================================================================================================= -->
+								<div class="row">
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="CEP_PJ">CEP:</label>
+										<input type="text" name="CEP_PJ" id="CEP_PJ" value="" mask="00000-000" class="form-control" onblur="pesquisacep(this.value);" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="BAIRRO_PJ">Bairro:</label>
+										<input type="text" name="BAIRRO_PJ" id="BAIRRO_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="MUNICIPIO_PJ">Municipio:</label>
+										<input type="text" name="MUNICIPIO_PJ" id="MUNICIPIO_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="ESTADO_PJ">Estado:</label>
+										<input type="text" name="ESTADO_PJ" id="ESTADO_PJ" value="" class="form-control">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="RUA_PJ">Rua:</label>
+										<input type="text" name="RUA_PJ" id="RUA_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="NUMERO_PJ">Número:</label>
+										<input type="text" name="NUMERO_PJ" id="NUMERO_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="COMPLEMENTO_PJ">Complemento:</label>
+										<input type="text" name="COMPLEMENTO_PJ" id="COMPLEMENTO_PJ" value="" class="form-control">
+									</div>
+								</div>
+								<!-- ============================================================================================================================= -->
+								<hr>
+								<!-- ============================================================================================================================= -->
+								<div class="row">
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="NOMEREFERENCIA_PJ">Referências comerciais - Nome da Empresa:</label>
+										<input type="text" name="NOMEREFERENCIA_PJ" id="NOMEREFERENCIA_PJ" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="TELEFONEREFERENCIA_PJ">Telefone:</label>
+										<input type="text" name="TELEFONEREFERENCIA_PJ" id="TELEFONEREFERENCIA_PJ" value="" mask="(00) 90000-0000" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="CONTATOREFERENCIA_PJ">Nome de Contato:</label>
+										<input type="text" name="CONTATOREFERENCIA_PJ" id="CONTATOREFERENCIA_PJ" value="" class="form-control">
+									</div>
+								</div>
+								<!-- ============================================================================================================================= -->
+								<hr>
+								<!-- ============================================================================================================================= -->
+								<div class="row">
+									<div class="form-group col-xs-6 col-md-4">
+										<label for="CREDITODESEJADO_PJ">Crédito Desejado:</label>
+										<div class="input-group"><span class="input-group-addon"><b>R$</b></span>
+											<input type="text" name="CREDITODESEJADO_PJ" id="CREDITODESEJADO_PJ" value="" mask="#00.000.000.000.000,00" class="form-control">
+										</div>
+									</div>
+									<div class="form-group col-xs-6 col-md-4">
+										<label for="PAGAMENTODESEJADO_PJ">Cond. Pagamento Desejada:</label>
+										<input type="zoom" id="PAGAMENTODESEJADO_PJ" name="PAGAMENTODESEJADO_PJ" class="form-control" data-zoom="{
+						    'displayKey':'NOME',
+						    'datasetId':'ds_atendimento_ass_tec_condicao_pagamento', 
+						    'placeholder':'Selecione...',
+						    'fields':[
+							    	{
+							    	 'field':'CODCPG',
+							    	 'label':'CODIGO'
+							    	}, {
+							    	 'field':'NOME',
+							    	 'label':'DESCRIÇÃO',
+							    	 'standard':'true'
+							    	}
+						    	]}" />
+									</div>
+									<div class="form-group col-xs-12 col-md-4">
+										<label for="PAGAMENTOOBS_PJ">Observações:</label>
+										<textarea id="PAGAMENTOOBS_PJ" name="PAGAMENTOOBS_PJ" value="" class="form-control" rows="1"></textarea>
+									</div>
+									<div class="form-group col-xs-6 col-md-6">
+										<label for="FORMAPAGAMENTO_PJ">Forma de Pagamento:</label>
+										<select class="form-control" name="FORMAPAGAMENTO_PJ" id="FORMAPAGAMENTO_PJ">
+											<option value="0">Selecione...</option>
+											<option value="Boleto Bancario">Boleto Bancário</option>
+											<option value="Credito em Conta">Crédito em Conta</option>
+										</select>
+									</div>
+									<div class='form-group col-xs-6 col-md-6'>
+										<label for="ANEXOS_PJ">Anexos:</label>
+										<input type="button" class="form-control" name="ANEXOS_PJ" id="ANEXOS_PJ" value="Clique para anexar" onclick="showCamera()">
+									</div>
+								</div>
+								<!-- ============================================================================================================================= -->
+								<div class="panel panel-primary">
+									<div class="panel-heading">
+										<h3 class="panel-title">Dados Bancários</h3>
+									</div>
+									<div class="panel-body">
+										<div class="row">
+											<div ID="DADOSBANCARIOS1_PJ">
+												<div class="form-group col-xs-5 col-md-5">
+													<label for="BANCO_PJ">Banco:</label>
+													<input type="text" name="BANCO_PJ" id="BANCO_PJ" value="" class="form-control">
+												</div>
+												<div class="form-group col-xs-3 col-md-3">
+													<label for="AGENCIA_PJ">Agência:</label>
+													<input type="text" name="AGENCIA_PJ" id="AGENCIA_PJ" value="" class="form-control">
+												</div>
+												<div class="form-group col-xs-4 col-md-4">
+													<label for="CONTA_PF">Conta Bancária:</label>
+													<input type="text" name="CONTA_PJ" id="CONTA_PJ" value="" class="form-control">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div ID="DADOSBANCARIOS2_PJ">
+												<div class="form-group col-xs-4 col-md-4">
+													<label for="TIPOCONTA_PJ">Tipo de Conta:</label>
+													<select class="form-control" name="TIPOCONTA_PJ" id="TIPOCONTA_PJ">
+														<option value="0">Selecione...</option>
+														<option value="Conta corrente">Conta Corrente</option>
+														<option value="Conta poupanÃ§a">Conta Poupança</option>
+													</select>
+												</div>
+												<div class="form-group col-xs-4 col-md-4">
+													<label for="GERENTE_PJ">Gerente:</label>
+													<input type="text" name="GERENTE_PJ" id="GERENTE_PJ" value="" class="form-control">
+												</div>
+												<div class="form-group col-xs-4 col-md-4">
+													<label for="TELEFONEBANCO_PJ">Telefone:</label>
+													<input type="text" name="TELEFONEBANCO_PJ" id="TELEFONEBANCO_PJ" value="" mask="(00) 90000-0000" class="form-control">
+												</div>
+											</div>
+											<div id="IFORMADADOSBANCARIOS_PJ">
+												<div class="form-group col-xs-12 col-md-14">
+													<label for="LABELTIPODADOSBANCRIOS_PJ">Dados bancarios:</label>
+													<select name="TIPODADOSBANCRIOS_PJ" id="TIPODADOSBANCRIOS_PJ" class="form-control" onclick="setCamposDadosBancarios()">
+														<option value="NULO"></option>
+														<option value="CHAVE_PIX">Chave pix </option>
+														<option value="DADOS_BANCARIOS">Dados bancarios</option>
+													</select>
+												</div>
+											</div>
+											<div id="CAMPOSFORNECEDOR_PJ">
+												<div id="CAMPOPIX_PJ">
+													<div class="form-group col-xs-4 col-md-6">
+														<label for="LABELTIPODACHAVE_PJ">Tipo da chave:</label>
+														<select name="TIPODACHAVE_PJ" id="TIPODACHAVE_PJ" class="form-control" onclick="pixpj()">
+															<option value="NULO"></option>
+															<option value="CPF">CPF</option>
+															<option value="CNPJ">CNPJ </option>
+														</select>
+													</div>
+													<div class="form-group col-xs-4 col-md-6">
+														<label for="LABELCHAVEPIX_PJ">Chave pix:</label>
+														<input type="text" name="CHAVEPIX_PJ" id="CHAVEPIX_PJ" class="form-control"onblur="validarCNPJFamilia()">
+													</div>
+												</div>
+												<div id="CAMPOSANEXOS_PJ">
+													<div class="form-group col-xs-12 col-md-12">
+														<label id="LABELANEXODADOSBANCARIOS_PJ" for="ANEXODADOSBANCARIOS">Anexar dados bancarios:</label>
+														<input type="button" class="form-control" name="ANEXODADOSBANCARIOS_PJ" id="ANEXODADOSBANCARIOS_PJ" value="Clique para anexar" onclick="showCamera()">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel-footer">OBSERVAÇÕES:<br> - A CONTA BANCÁRIA INFORMADA, DEVE ESTAR REGISTRADA COM O MESMO CNPJ OU CPF DE CADASTRO.<br> - O CADASTRO NÃO VIABILIZA O NEGÓCIO, ESTE É SUJEITO A ANÁLISE DE CRÉDITO.</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================================================================================= -->
+			<div class="panel panel-primary" id="FichaFisica">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fluigicon fluigicon-adduser icon-sm"></i> Ficha Cadastral - Pessoa Física</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="CPF_PF">CPF:</label>
+							<input type="text" name="CPF_PF" id="CPF_PF" value="" mask="000.000.000-00" class="form-control" onblur="pesquisaCPF(this.value);" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="NOME_PF">Nome:</label>
+							<input type="text" name="NOME_PF" id="NOME_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="RG_PF">RG:</label>
+							<input type="text" name="RG_PF" id="RG_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="ORGAOEMISSOR_PF">Órgão Emissor:</label>
+							<input type="text" name="ORGAOEMISSOR_PF" id="ORGAOEMISSOR_PF" value="" class="form-control">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="NASCIMENTO_PF">Data de Nascimento:</label>
+							<input type="text" name="NASCIMENTO_PF" id="NASCIMENTO_PF" value="" class="form-control" onclick="data(this);" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="ESTADOCIVIL_PF">Estado Civil:</label>
+							<select class="form-control" name="ESTADOCIVIL_PF" id="ESTADOCIVIL_PF">
+								<option value="0">Selecione...</option>
+								<option value="S">Solteiro</option>
+								<option value="C">Casado</option>
+								<option value="P">Separado</option>
+								<option value="I">Divorciado</option>
+								<option value="V">Viúvo</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="DEPENDENTES_PF">Número de Dependentes:</label>
+							<input type="number" name="DEPENDENTES_PF" id="DEPENDENTES_PF" min="0" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="PIS_PF">Número do Pis:</label>
+							<input type="text" name="PIS_PF" id="PIS_PF" value="" maxlength="11" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="TELEFONE_PF">Nº do telefone:</label>
+							<input type="text" name="TELEFONE_PF" id="TELEFONE_PF" value="" mask="(00) 0000-0000" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="CATAUTONOMO_PF">Categoria do Autônomo:</label>
+							<input type="text" name="CATAUTONOMO_PF" id="CATAUTONOMO_PF" value="" maxlength="2" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="CBOAUTONOMO_PF">CBO Autônomo:</label>
+							<input type="text" name="CBOAUTONOMO_PF" id="CBOAUTONOMO_PF" value="" maxlength="6" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="IE_PF">IE (Produtor Rural):</label>
+							<input type="text" name="IE_PF" id="IE_PF" value="" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="CELULAR_PF">Nº do telefone Celular:</label>
+							<input type="text" name="CELULAR_PF" id="CELULAR_PF" value="" mask="(00) 90000-0000" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="EMAILXML_PF">E-mail para XML:</label>
+							<input type="text" name="EMAILXML_PF" id="EMAILXML_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 col-md-4]">
+							<label for="EMAIL_PF">E-mail para envio de OC:</label>
+							<input type="text" name="EMAIL_PF" id="EMAIL_PF" value="" class="form-control">
+						</div>
+					</div>
+					<!-- ============================================================================================================================= -->
+					<hr>
+					<!-- ============================================================================================================================= -->
+					<div class="row">
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="CEP_PF">CEP:</label>
+							<input type="text" name="CEP_PF" id="CEP_PF" value="" mask="00000-000" class="form-control" onblur="pesquisacep(this.value);" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="BAIRRO_PF">Bairro:</label>
+							<input type="text" name="BAIRRO_PF" id="BAIRRO_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="MUNICIPIO_PF">Municipio:</label>
+							<input type="text" name="MUNICIPIO_PF" id="MUNICIPIO_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-3 col-md-3">
+							<label for="ESTADO_PF">Estado:</label>
+							<input type="text" name="ESTADO_PF" id="ESTADO_PF" value="" class="form-control">
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="RUA_PF">Rua:</label>
+							<input type="text" name="RUA_PF" id="RUA_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="NUMERO_PF">Número:</label>
+							<input type="text" name="NUMERO_PF" id="NUMERO_PF" value="" class="form-control" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="COMPLEMENTO_PF">Complemento:</label>
+							<input type="text" name="COMPLEMENTO_PF" id="COMPLEMENTO_PF" value="" class="form-control">
+						</div>
+					</div>
+					<!-- ============================================================================================================================= -->
+					<hr>
+					<!-- ============================================================================================================================= -->
+					<div class="row">
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="NOMEREFERENCIA_PF">Referências comerciais - Nome da Empresa:</label>
+							<input type="text" name="NOMEREFERENCIA_PF" id="NOMEREFERENCIA_PF" value="" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="TELEFONEREFERENCIA_PF">Telefone:</label>
+							<input type="text" name="TELEFONEREFERENCIA_PF" id="TELEFONEREFERENCIA_PF" value="" mask="(00) 90000-0000" class="form-control">
+						</div>
+						<div class="form-group col-xs-4 col-md-4">
+							<label for="CONTATOREFERENCIA_PF">Nome de Contato:</label>
+							<input type="text" name="CONTATOREFERENCIA_PF" id="CONTATOREFERENCIA_PF" value="" class="form-control">
+						</div>
+					</div>
+					<!-- ============================================================================================================================= -->
+					<hr>
+					<!-- ============================================================================================================================= -->
+					<div class="row">
+						<div class="form-group col-xs-6 col-md-4">
+							<label for="CREDITODESEJADO_PF">Crédito Desejado:</label>
+							<div class="input-group"><span class="input-group-addon"><b>R$</b></span>
+								<input type="text" name="CREDITODESEJADO_PF" id="CREDITODESEJADO_PF" value="" mask="#00.000.000.000.000,00" class="form-control">
+							</div>
+						</div>
+						<div class="form-group col-xs-6 col-md-4">
+							<label for="PAGAMENTODESEJADO_PF">Cond. Pagamento Desejada:</label>
+							<input type="zoom" id="PAGAMENTODESEJADO_PF" name="PAGAMENTODESEJADO_PF" class="form-control" data-zoom="{
+						    'displayKey':'NOME',
+						    'datasetId':'ds_atendimento_ass_tec_condicao_pagamento', 
+						    'placeholder':'Selecione...',
+						    'fields':[
+							    	{
+							    	 'field':'CODCPG',
+							    	 'label':'CODIGO'
+							    	}, {
+							    	 'field':'NOME',
+							    	 'label':'DESCRIÇÃO',
+							    	 'standard':'true'
+							    	}
+						    	]}" />
+						</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="PAGAMENTOOBS_PF">Observações:</label>
+							<textarea id="PAGAMENTOOBS_PF" name="PAGAMENTOOBS_PF" value="" class="form-control" rows="1"></textarea>
+						</div>
+						<div class="form-group col-xs-6 col-md-6">
+							<label for="FORMAPAGAMENTO_PF">Forma de Pagamento:</label>
+							<select class="form-control" name="FORMAPAGAMENTO_PF" id="FORMAPAGAMENTO_PF">
+								<option value="0">Selecione...</option>
+								<option value="Boleto Bancario">Boleto Bancário</option>
+								<option value="Credito em Conta">Crédito em Conta</option>
+							</select>
+						</div>
+						<div class='form-group col-xs-6 col-md-6'>
+							<label for="ANEXOS_PF">Anexos:</label>
+							<input type="button" class="form-control" name="ANEXOS_PF" id="ANEXOS_PF" value="Clique para anexar" onclick="showCamera()">
+						</div>
+					</div>
+					<!-- ============================================================================================================================= -->
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title">Dados Bancários</h3>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div ID="DADOSBANCARIOS1_PF">
+									<div class="form-group col-xs-5 col-md-5">
+										<label for="BANCO_PF">Banco:</label>
+										<input type="text" name="BANCO_PF" id="BANCO_PF" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-3 col-md-3">
+										<label for="AGENCIA_PF">Agência:</label>
+										<input type="text" name="AGENCIA_PF" id="AGENCIA_PF" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="CONTA_PF">Conta Bancária:</label>
+										<input type="text" name="CONTA_PF" id="CONTA_PF" value="" class="form-control">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div ID="DADOSBANCARIOS2_PF">
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="TIPOCONTA_PF">Tipo de Conta:</label>
+										<select class="form-control" name="TIPOCONTA_PF" id="TIPOCONTA_PF">
+											<option value="0">Selecione...</option>
+											<option value="Conta corrente">Conta Corrente</option>
+											<option value="Conta poupança">Conta Poupança</option>
+										</select>
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="GERENTE_PF">Gerente:</label>
+										<input type="text" name="GERENTE_PF" id="GERENTE_PF" value="" class="form-control">
+									</div>
+									<div class="form-group col-xs-4 col-md-4">
+										<label for="TELEFONEBANCO_PF">Telefone:</label>
+										<input type="text" name="TELEFONEBANCO_PF" id="TELEFONEBANCO_PF" value="" mask="(00) 90000-0000" class="form-control">
+									</div>
+								</div>
+								<div id="IFORMADADOSBANCARIOS_PF">
+									<div class="form-group col-xs-12 col-md-14">
+										<label for="LABELTIPODADOSBANCRIOS_PF">Dados bancarios:</label>
+										<select name="TIPODADOSBANCRIOS_PF" id="TIPODADOSBANCRIOS_PF" class="form-control" onclick="setCamposDadosBancarios()">
+											<option value="NULO"></option>
+											<option value="CHAVE_PIX">Chave pix </option>
+											<option value="DADOS_BANCARIOS">Dados bancarios</option>
+										</select>
+									</div>
+								</div>
+								<div id="CAMPOSFORNECEDOR_PF">
+									<div id="CAMPOPIX_PF">
+										<div class="form-group col-xs-4 col-md-6">
+											<label for="LABELTIPODACHAVE_PF">Tipo da chave:</label>
+											<select name="TIPODACHAVE_PF" id="TIPODACHAVE_PF" class="form-control" onclick="pixpf()">
+												<option value="NULO"></option>
+												<option value="CPF">CPF</option>
+												<option value="CNPJ">CNPJ </option>
+											</select>
+										</div>
+										<div class="form-group col-xs-4 col-md-6">
+											<label for="LABELCHAVEPIX_PF">Chave pix:</label>
+											<input type="text" name="CHAVEPIX_PF" id="CHAVEPIX_PF" class="form-control">
+										</div>
+									</div>
+									<div id="CAMPOSANEXOS_PF">
+										<div class="form-group col-xs-12 col-md-12">
+											<label id="LABELANEXODADOSBANCARIOS_PF" for="ANEXODADOSBANCARIOS">Anexar dados bancarios:</label>
+											<input type="button" class="form-control" name="ANEXODADOSBANCARIOS_PF" id="ANEXODADOSBANCARIOS_PF" value="Clique para anexar" onclick="showCamera()">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">OBSERVAÇÕES:<br> - A CONTA BANCÁRIA INFORMADA, DEVE ESTAR REGISTRADA COM O MESMO CNPJ OU CPF DE CADASTRO.<br> - O CADASTRO NÃO VIABILIZA O NEGÓCIO, ESTE É SUJEITO A ANÁLISE DE CRÉDITO.</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================================================================================= -->
+			<div class="panel panel-primary" id="DadosFinanceiros">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fluigicon fluigicon-user-config icon-sm"></i> Avaliação Financeira</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-xs-6 col-md-4">
+							<label for="FINANCEIROAPROVA">Aprovado:</label>
+							<select class="form-control" name="FINANCEIROAPROVA" id="FINANCEIROAPROVA" onchange="camposDadosFinanceiros(this.value);">
+								<option value="0">Selecione...</option>
+								<option value="Aprovado">Aprovado</option>
+								<option value="Aprovado_com_Ressalva">Aprovado com Ressalva</option>
+								<option value="Reprovado">Reprovado</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-6 col-md-4">
+							<label for="FINANCEIROLIMITE">Limite de Crédito:</label>
+							<div class="input-group"><span class="input-group-addon"><b>R$</b></span>
+								<input type="text" name="FINANCEIROLIMITE" id="FINANCEIROLIMITE" value="" mask="#00.000.000.000.000,00" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="FINANCEIROOBS">Observação:</label>
+							<textarea id="FINANCEIROOBS" name="FINANCEIROOBS" value="" class="form-control" rows="1" readonly></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================================================================================= -->
+			<div class="panel panel-primary" id="DadosCompras">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fluigicon fluigicon-user-config icon-sm"></i> Avaliação Compras</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-xs-6 col-md-3">
+							<label for="COMPRASAPROVA">Aprovado:</label>
+							<select class="form-control" name="COMPRASAPROVA" id="COMPRASAPROVA" onchange="camposDadosFinanceiros(this.value);">
+								<option value="0">Selecione...</option>
+								<option value="Aprovado">Aprovado</option>
+								<option value="Reprovado">Reprovado</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-12 col-md-9">
+							<label for="OBSCOMPRAS">Observação:</label>
+							<textarea id="OBSCOMPRAS" name="OBSCOMPRAS" value="" class="form-control" rows="1"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- ============================================================================================================================= -->
+			<div class="panel panel-primary" id="DivCadastroCliFor">
+				<div class="panel-heading">
+					<h3 class="panel-title"><i class="fluigicon fluigicon-user-config icon-sm"></i> Cadastro Cli/For</h3>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="form-group col-xs-5 col-md-3">
+							<label for="CADASTRODADOS">Cadastro de cliente/fornecedor:</label>
+							<select class="form-control" name="CADASTRODADOS" id="CADASTRODADOS" onchange="camposCadastroCliFor(this.value);">
+								<option value="0">Selecione...</option>
+								<option value="Realizado">Realizado</option>
+								<option value="Nao_Realizado">Não Realizado</option>
+							</select>
+						</div>
+						<div class="form-group col-xs-5 col-md-3">
+							<label for="CADASTROCLIFOR">Código Cli/For:</label>
+							<input id="CADASTROCLIFOR" name="CADASTROCLIFOR" class="form-control" readonly="readonly">
+						</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="CADASTROOBS">Observação:</label>
+							<textarea id="CADASTROOBS" name="CADASTROOBS" value="" class="form-control" rows="1"></textarea>
+						</div>
+						<div class="form-group col-xs-2 col-md-2">
+							<label for="CADASTRODADOS">Editar Formulário:</label>
+							<input id="MySwitchButtonCheckbox" name="MySwitchButtonCheckbox" type="checkbox" onchange="editaFormulario(this)">
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- <input type="hidden" value="0" name="hidden_tipo_cadastro" id="hidden_tipo_cadastro" /> -->
+			<!-- <input type="hidden" value="0" name="hidden_entidade" id="hidden_entidade" /> -->
+			<!-- <input type="hidden" value="0" name="hidden_categoria_fornecedor" id="hidden_categoria_fornecedor" /> -->
+			<!-- ==================================================================================== -->
+			<!-- <input type="hidden" value="0" name="hidden_estado_civil" id="hidden_estado_civil" /> -->
+			<!-- <input type="hidden" value="0" name="hidden_forma_pagamento_pf" id="hidden_forma_pagamento_pf" /> -->
+			<!-- <input type="hidden" value="0" name="hidden_tipo_conta_pf" id="hidden_tipo_conta_pf" /> -->
+			<!-- ==================================================================================== -->
+			<!-- <input type="hidden" value="0" name="hidden_forma_pagamento_pj" id="hidden_forma_pagamento_pj" /> -->
+			<!-- <input type="hidden" value="0" name="hidden_tipo_conta_pj" id="hidden_tipo_conta_pj"/> -->
+		</form>
+	</div>
+	<script>
+		function setSelectedZoomItem(selectedItem) {
+		
+			var NOMECONTATO = "NOMECONTATO";
+			var EMAILCONTATO = "EMAILCONTATO";
+		
+			var FIELD = selectedItem.inputId;
+		
+			if (selectedItem.inputId == NOMECONTATO) {
+				setZoomData("EMAILCONTATO",
+						selectedItem["EMAIL"]);
+			} else if (selectedItem.inputId == EMAILCONTATO) {
+				setZoomData("NOMECONTATO",
+						selectedItem["NOME"]);
+			}
+		
+		}
+		
+		function setZoomData(instance, value) {
+			window[instance].setValue(value);
+		}
+		
+		function removedZoomItem(removedItem) {
+		
+			var NOMECONTATO = "NOMECONTATO";
+			var EMAILCONTATO = "EMAILCONTATO";
+			
+			if (removedItem.inputId == NOMECONTATO) {
+				console.log("Retornando resultado removedZoomItem");
+				console.log(removedItem);
+				
+				window[EMAILCONTATO].clear();
+			}
+			if (removedItem.inputId == EMAILCONTATO) {
+				window[NOMECONTATO].clear();
+			}
+		}
+	</script>
+</body>
+
+</html>

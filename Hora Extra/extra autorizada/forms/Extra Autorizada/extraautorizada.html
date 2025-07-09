@@ -1,0 +1,176 @@
+
+	<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="custom.js"></script>
+</head>
+<body  onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+<input type="hidden" name="N_SOLICITACAO" id="N_SOLICITACAO">
+<input type="hidden" name="EMAIL_SOLICITANTE" id="EMAIL_SOLICITANTE">
+								
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>DADOS DA SOLICITAÇÃO</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+		
+			<div class="form-group col-xs-12 col-md-3">
+
+				<label for="NOME_SOLICITANTE">Funcionario:</label>
+				<input type="zoom" class="form-control" name="NOME_SOLICITANTE" id="NOME_SOLICITANTE"
+                                            data-zoom="{
+                                                    'displayKey':'NOMESOLICITANTE',
+                                                        'datasetId':'ds_informacoes_usuario',                                 
+                                                        'placeholder': 'Nome solicitante',
+                                                            'fields':[
+                                                            {
+                                                            'field':'NOMESOLICITANTE',
+                                                            'label':'Nome solicitante',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->    
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="CHAPA_SOLICITANTE">Chapa:</label>
+				<input type="text" name="CHAPA_SOLICITANTE" id="CHAPA_SOLICITANTE" value="" class="form-control" readonly="readonly" >
+			</div>
+
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="RESPONSAVEL">Responsavel:</label>
+				<input type="text" name="RESPONSAVEL" id="RESPONSAVEL" value="" class="form-control" readonly="readonly" >
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="NOME_CODCCUSTO">Centro de Custo:</label>
+				<input type="text" name="NOME_CODCCUSTO" id="NOME_CODCCUSTO" value="" class="form-control" readonly="readonly" >
+			</div>
+		</div>
+		<div class="row">
+		<div class="form-group col-xs-12 col-md-2">
+				<label for="JUSTIFICATIVA_DIA">Dia :</label> 
+                  		<select name="JUSTIFICATIVA_DIA" id="JUSTIFICATIVA_DIA" class="form-control">
+               		 		<option value="VAZIO" ></option>
+               		 		<option value="UTIL">Útil</option>
+               		 		<option value="SABADO">Sábado</option>
+               		 		<option value="FERIADO">Feriado</option>
+            		  	</select>	
+			</div>
+		
+			<div class="form-group col-xs-12 col-md-5">
+				<label for="DATA_EXTRA">Data das horas extras:</label>
+				<input type="date" name="DATA_EXTRA" id="DATA_EXTRA" value="" class="form-control">
+			</div>
+			
+			<div class="form-group col-xs-12 col-md-5">
+				<label for="HORA_EXTRA"><strong>Quantidade de Horas Extra (Em minutos) </strong> </label>
+				<input type="number" name="HORA_EXTRA" id="HORA_EXTRA" value="" class="form-control" >
+			</div>
+		</div>
+		<div class="row">
+		<div class="form-group col-xs-12 col-md-12">
+				<label for="JUSTIFICATIVA">Justificativa :</label> 
+                  		<select name="JUSTIFICATIVA" id="JUSTIFICATIVA" class="form-control">
+               		 		<option value="VAZIO" ></option>
+               		 		<option value="001" >Horas extras faturada para o cliente</option>
+               		 	<!--<option value="002" >Horas extras faturada para o cliente</option>-->
+               		 		<option value="003" >Treinamento Realizado pela Tradimaq Ltda.</option>
+               		 		<option value="004" >Absenteísmo (Horas Extras em Função de Falta de empregado)</option>
+               		 		<option value="005" >Déficit de QLP (Horas extras em função de Quadro Funcional Incompleto)</option>
+               		 		<option value="006" >Empréstimo Para Outro Contrato (Tradimaq Ltda.)</option>
+               		 		<option value="007" >Empréstimo Para Outro Contrato (Cliente)</option>
+               		 		<option value="008" >Horas extras faturada para o cliente</option>
+               		 		<option value="009" >Serviço extraordinário do gestor</option>
+               		 		<option value="010" >Viagem / deslocamento</option>
+               		 		<option value="011" >Exame médico periódico</option>
+               		 		<option value="012" >Diálogo Diario de  Segurança (DDS)</option>
+               		 		<option value="013" >Minutos que antecedem e sucedem a jornada de trabalho </option>
+               		 	<!--<option value="014" >Horas extra utilizadas para compensação (NÂO UTILIZAR)</option>-->
+               		 		<option value="015" >Feriado não faturado ao cliente</option>
+               		 		<option value="016" >Encerramento de trabalho/atividade inadiável</option>
+               		 		<option value="017" >Compensação do Banco de Horas Negativas</option>
+               		 		<option value="018" >Teste de Atenção Imediata - TAI</option>
+            		  	</select>	
+			</div>
+			</div>
+			<div class="row">
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="OBJ_SOLICITANTE">Observações do solicitante:</label>
+						<textarea id="OBJ_SOLICITANTE" name="OBJ_SOLICITANTE" value="" class="form-control" rows="4"></textarea>
+					</div>
+			</div>
+		
+		<!-- ============================================================================================================================= -->
+
+			
+		</div>
+	</div>
+	<div id="APROVACAO_LIDERANCA" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO DA LIDERANÇA</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="ESCOPO_APROVADO_LIDERANCA">Escopo aprovado:</label>
+						    			<select name="ESCOPO_APROVADO_LIDERANCA" id="ESCOPO_APROVADO_LIDERANCA" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBSERVACAO_LIDERANCA">Observações liderança:</label>
+				    		<textarea id="OBSERVACAO_LIDERANCA" name="OBSERVACAO_LIDERANCA" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="APROVACAO_RH" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO DO RH </h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="ESCOPO_APROVADO_RH">Escopo aprovado:</label>
+						    			<select name="ESCOPO_APROVADO_RH" id="ESCOPO_APROVADO_RH" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				    <div class="form-group col-xs-12 col-md-12">
+							<label for="OBSERVACAO_RH">Observações RH:</label>
+				    		<textarea id="OBSERVACAO_RH" name="OBSERVACAO_RH" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+				<input type="hidden" name="NUM_PROCESS" id="NUM_PROCESS" value="" class="form-control"  >
+				<input type="hidden" name="VALIDACAO_HORA_BANCO" id="VALIDACAO_HORA_BANCO" value="" class="form-control"  >
+				<input type="hidden" name="CHAPA_RESPONSAVEL" id="CHAPA_RESPONSAVEL" value="" class="form-control"  >
+				
+	
+
+		<!-- ============================================================================================================================= -->
+</form>
+</div>
+</body>
+</html>

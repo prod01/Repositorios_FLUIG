@@ -1,0 +1,270 @@
+
+<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>CAMINHADA DE SEGURANÇA</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+	
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="NOME_SOLICITANTE">Executor da Caminhada:</label>
+				<input type="zoom" class="form-control" name="NOME_SOLICITANTE" id="NOME_SOLICITANTE"
+                                            data-zoom="{
+                                                    'displayKey':'NOME_SOLICITANTE',
+                                                        'datasetId':'ds_informacao_executor',                                 
+                                                        'placeholder': '',
+                                                            'fields':[
+                                                            {
+                                                            'field':'NOME_SOLICITANTE',
+                                                            'label':'',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->    
+			</div>
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="CENTRO_DE_CUSTO">Centro de custo da Caminhada:</label>
+				<input type="zoom" class="form-control" name="CENTRO_DE_CUSTO" id="CENTRO_DE_CUSTO"
+                                            data-zoom="{
+                                                    'displayKey':'CENTRO_DE_CUSTO',
+                                                        'datasetId':'ds_informacao_ccusto',                                 
+                                                        'placeholder': '',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CENTRO_DE_CUSTO',
+                                                            'label':'',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->  
+			</div>
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="RESP_CENTRO_DE_CUSTO">Responsável centro de custo:</label>
+				<input type="text" name="RESP_CENTRO_DE_CUSTO" id="RESP_CENTRO_DE_CUSTO" value="" class="form-control" readonly="readonly" >
+			</div>
+			
+		</div>
+		<div class="row">
+		
+			<div class="form-group col-xs-12 col-md-6">
+				<label for="DATA_CAMINHADA">Data:</label>
+				<input type="date" name="DATA_CAMINHADA" id="DATA_CAMINHADA" value="" class="form-control">
+				    	
+				
+			</div>
+			<div class="form-group col-xs-12 col-md-6">
+				<label for="HORARIO_CAMINHADA">Horario:</label>
+				<input type="time" name="HORARIO_CAMINHADA" id="HORARIO_CAMINHADA" value="" class="form-control">
+				    	
+				
+			</div>
+	
+		</div>	
+		<div class="row">
+			 <table id="TABELA_NOME_ACOMPANHANTES" class="table" cellspacing="0" tablename="TABELA_NOME_ACOMPANHANTES" noaddbutton="true" nodeletebutton="false" customFnDelete="deleteLinhaTabela(this, 'TABELA_NOME_ACOMPANHANTES')">
+					<thead>
+						<tr class="tableHeadRow">
+							<th class="tableColumn">
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+																								
+								<div class="form-group col-xs-12 col-md-12">
+								<label for="NOME_PARTICIPANTES">Participantes :</label>
+								<input type="zoom" class="form-control" name="NOME_PARTICIPANTES" id="NOME_PARTICIPANTES"
+	                                data-zoom="{
+	                                        'displayKey':'NOME',
+	                                            'datasetId':'ds_funcionarios_ativos_analise_juridica',                                 
+	                                            'placeholder': '',
+	                                                'fields':[
+	                                                {
+	                                                'field':'NOME',
+	                                                'label':'',
+	                                                'standard':'true'
+	                                                }
+	                                            ]
+	                                        }"
+	                            /><!-- End Input zoom -->    
+								</div>
+													
+							</td>
+						</tr>
+												
+					</tbody>
+												
+				</table>
+		</div> 		
+		<div class="row">
+		
+				<div class="form-group col-xs-12 col-md-2">
+						<label></label>
+ 					    <input type="hidden" name="NUMERO_NOME_ACOMPANHANTES" id="NUMERO_NOME_ACOMPANHANTES">  
+    					<button type="button" class="btn btn-primary" name="BOTAO_NOME_PARTICIPANTES" id="BOTAO_NOME_PARTICIPANTES" onclick="addLinhaTabela('TABELA_NOME_ACOMPANHANTES')">Participantes</button>
+				</div>
+		</div> 
+		<div class="row">
+		
+			<div class='form-group col-xs-12 col-md-12'>
+						<label for="ANEXOS_CAMINHADA">Anexos:</label>
+						<input type="button" class="form-control" name="ANEXOS_CAMINHADA" id="ANEXOS_CAMINHADA" value="Clique para anexar" onclick="showCamera()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="OBS_SOLICITANTE_CAMINHADA">Observações:</label>
+				<textarea id="OBS_SOLICITANTE_CAMINHADA" name="OBS_SOLICITANTE_CAMINHADA" value="" class="form-control" rows="4"></textarea>
+			</div>
+					
+					<input type="hidden" name="ATIVIDADE_SOLICITACAO" id="ATIVIDADE_SOLICITACAO">
+
+		</div>
+	
+		
+<!-- ============================================================================================================================= -->
+
+		</div>
+	</div>
+	<div id="OCORRENCIA" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">OCORRÊNCIA</h3>
+			    </div>
+			    <div class="panel-body">
+			    
+			   <table id="TABELA_OCORRENCIA"  class="table" cellspacing="0" tablename="TABELA_OCORRENCIA" noaddbutton="true"   nodeletebutton="false" customFnDelete="deleteLinhaTabela(this, 'TABELA_OCORRENCIA')">
+					<thead>
+							<tr class="tableHeadRow">
+								<th class="tableColumn">
+								</th>
+							</tr>
+					</thead>
+					
+					<tbody>
+							<tr>
+								<td>
+																								
+									<div class="col-xs-12 col-md-12">
+												
+												<label for="LOCAL_OCORRENCIA">Local da Ocorrência:</label>
+									    		<textarea id="LOCAL_OCORRENCIA" name="LOCAL_OCORRENCIA" value="" class="form-control" rows="1"></textarea>
+									
+									</div>	
+									<div class="col-xs-12 col-md-12"><!-- Data set que vai buscar o indice de acopamnahento  -->
+													
+												<label for="DESCRICAO_OCORRENCIA">Descrição da Ocorrência:</label>
+												<textarea id="DESCRICAO_OCORRENCIA" name="DESCRICAO_OCORRENCIA" value="" class="form-control" rows="2"></textarea>
+									    		
+									</div>								
+									<div class="col-xs-12 col-md-6">
+																						
+												<label for="RESP_ACAO">Responsavel pela Tratativa:</label>
+												<input type="zoom" class="form-control" name="RESP_ACAO" id="RESP_ACAO"
+                                            data-zoom="{
+                                                    'displayKey':'NOME_SOLICITANTE',
+                                                        'datasetId':'ds_informacao_executor',                                 
+                                                        'placeholder': '',
+                                                            'fields':[
+                                                            {
+                                                            'field':'NOME_SOLICITANTE',
+                                                            'label':'',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->    
+									</div>			
+									<div class="col-xs-12 col-md-6"><!-- Data set que vai buscar o indice de acopamnahento  -->
+													
+											<label for="ANEXOS_OCORRENCIA">Anexos:</label>
+											<input type="button" class="form-control" name="ANEXOS_OCORRENCIA" id="ANEXOS_OCORRENCIA" value="Clique para anexar" onclick="showCamera()">
+											
+									</div>
+									<div class="col-xs-12 col-md-12"><!-- Data set que vai buscar o indice de acopamnahento  -->
+													
+											<label for="TRATATIVA_LIDERANCA">Tratativa liderança:</label>
+									    	<textarea id="TRATATIVA_LIDERANCA" name="TRATATIVA_LIDERANCA" value="" class="form-control" rows="4"></textarea>
+									
+									</div>
+									<!--
+									<div class="col-xs-12 col-md-12">
+													
+											<label for="OBSERVACAO_SSMA_OCORRENCIA">Observação SSMA:</label>
+									    	<textarea id="OBSERVACAO_SSMA_OCORRENCIA" name="OBSERVACAO_SSMA_OCORRENCIA" value="" class="form-control" rows="4"></textarea>
+									
+									</div>
+									-->  
+																
+								</td>
+							</tr>
+													
+					</tbody>
+													
+				 </table> 
+			<div class="row">
+		 		<div class="col-xs-12 col-md-4">
+		 				<input type="hidden" name="NUMERO_OCORRENCIA" id="NUMERO_OCORRENCIA">
+		 				<button type="button" class="btn btn-primary" name="TABELA_OUTROS_BOTAO" id="TABELA_OUTROS_BOTAO" onclick="addLinhaTabela('TABELA_OCORRENCIA')">Novo Registro</button>
+	     		</div>
+	    	</div>	    
+		 </div>
+	    </div> 
+	  </div>
+	
+	
+<!-- ============================================================================================================================= -->
+	<!--  
+	<div id="VALIDACAO_TRATATIVA" >	
+			<div class="panel panel-primary">
+			
+			    <div class="panel-heading">
+			        <h3 class="panel-title">AVALIAÇÃO DA(S) TRATATIVA(S):</h3>
+			    </div>
+			    
+			    <div class="panel-body">
+			    <div class="row">
+			    		<div class="form-group col-xs-12 col-md-12">
+							<label for="ESCOPO_APROVADO">Aprovação:</label> 
+	                  			<select name="ESCOPO_APROVADO" id="ESCOPO_APROVADO" class="form-control" onchange="mostraTipoSolicitacao()">
+			               		 		<option value="NULO"></option>
+			               		 		<option value="SIM">SIM</option>
+			               		 		<option value="NAO">NÃO</option>
+			               		 		
+	               		 		
+	            		  		</select>	
+						</div>
+				   		<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_VALIDACAO_TRATATIVA">Observações:</label>
+				    		<textarea id="OBS_VALIDACAO_TRATATIVA" name="OBS_VALIDACAO_TRATATIVA" value="" class="form-control" rows="4"></textarea>
+				   		</div>
+				   		
+				 </div>
+
+			   </div>
+	    	</div> 
+	  </div>
+-->
+		<!-- ============================================================================================================================= -->
+</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+
+	<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+<input type="hidden" name="N_SOLICITACAO" id="N_SOLICITACAO">
+<input type="hidden" name="EMAIL_SOLICITANTE" id="EMAIL_SOLICITANTE">
+								
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>DADOS DA SOLICITAÇÃO</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+	
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="NOME_SOLICITANTE">Solicitante:</label>
+				<input type="zoom" class="form-control" name="NOME_SOLICITANTE" id="NOME_SOLICITANTE"
+                                            data-zoom="{
+                                                    'displayKey':'NOME',
+                                                        'datasetId':'ds_funcionarios_ativos_analise_juridica',                                 
+                                                        'placeholder': 'Nome solicitante',
+                                                            'fields':[
+                                                            {
+                                                            'field':'NOME',
+                                                            'label':'Nome solicitante',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->    
+			</div>
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="CENTRO_DE_CUSTO">Centro de custo:</label>
+				<input type="zoom" class="form-control" name="CENTRO_DE_CUSTO" id="CENTRO_DE_CUSTO"
+                                            data-zoom="{
+                                                    'displayKey':'CCUSTO',
+                                                        'datasetId':'ds_ccusto_analise_juridica',                                 
+                                                        'placeholder': 'Cod. Centro de Custos ou Nome',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CCUSTO',
+                                                            'label':'Cod. Centro de Custos ou Nome',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->   
+			</div>
+			<div class="form-group col-xs-12 col-md-4">
+				<label for="RESP_CENTRO_DE_CUSTO">Responsável centro de custo:</label>
+				<input type="text" name="RESP_CENTRO_DE_CUSTO" id="RESP_CENTRO_DE_CUSTO" value="" class="form-control" readonly="readonly" >
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="CLI_FOR">Cliente / Fornecedor:</label> 
+                  		<select name="CLI_FOR" id="CLI_FOR" class="form-control" onchange="tipo()">
+               		 		<option value="VAZIO" ></option>
+               		 		<option value="CLIENTE" >Cliente</option>
+               		 		<option value="FORNECEDOR">Fornecedor</option>
+            		  	</select>	
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="NOME_CLI_FOR">Razão Social do Cliente / Fornecedor:</label>
+				<input type="text" name="NOME_CLI_FOR" id="NOME_CLI_FOR" value="" class="form-control">
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="TIPO_SOLICITACAO">Tipo:</label> 
+                  		<select name="TIPO_SOLICITACAO" id="TIPO_SOLICITACAO" class="form-control" onchange="tipo()">
+               		 		<option value="VAZIO" ></option>
+               		 		<option value="CONTRATO">Novo Contrato</option>
+               		 		<option value="ADTIVO" >Aditivos</option>
+               		 		<option value="RECISAO">Rescisão</option>
+               		 		<option value="NOTIFICACAO">Notificação</option>
+               		 		<option value="OUTROS">Outros</option>
+            		  	</select>	
+			</div>
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="OUTROS">Outros:</label>
+				<input type="text" name="OUTROS" id="OUTROS" value="" class="form-control">
+			</div>
+			<div  class="form-group col-xs-12 col-md-3">
+			<div id="DIV_DATA_RECEBIMENTO" >
+				<label for="DATA_RECEBIMENTO">Data do recebimento:</label>
+				<input type="date" name="DATA_RECEBIMENTO" id="DATA_RECEBIMENTO" value="" class="form-control">
+				    	
+				
+			</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-12 col-md-6">
+							<label for="NUMERO_DO_CONTRATO">Numero do documento:</label>
+				    		<input type="zoom" class="form-control" name="NUMERO_DO_CONTRATO" id="NUMERO_DO_CONTRATO"
+                                            data-zoom="{
+                                                    'displayKey':'CONTRATO',
+                                                        'datasetId':'ds_contratos_ativos_analise_juridca',                                 
+                                                        'placeholder': '',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CONTRATO',
+                                                            'label':'Numero do Contrato',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->   
+		
+			</div>
+			<div class="form-group col-xs-12 col-md-6">
+				<label for="NUMERO_DO_CONTRATO_FUNC">Numero do documento:</label>
+				<input type="text" name="NUMERO_DO_CONTRATO_FUNC" id="NUMERO_DO_CONTRATO_FUNC" value="" class="form-control" readOnly="readOnly">
+				    	
+				
+			</div>
+			<div class='form-group col-xs-12 col-md-6'>
+						<label for="ANEXOS_CONTRATO_ORIGEM">Anexo de documentos:</label>
+						<input type="button" class="form-control" name="ANEXOS_CONTRATO_ORIGEM" id="ANEXOS_CONTRATO_ORIGEM" value="Clique para anexar" onclick="showCamera()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="OBJ_SOLICITANTE">Observações do solicitante:</label>
+				<textarea id="OBJ_SOLICITANTE" name="OBJ_SOLICITANTE" value="" class="form-control" rows="4"></textarea>
+			</div>
+		
+		
+		</div>
+		<!-- ============================================================================================================================= -->
+
+			
+		</div>
+	</div>
+	<div id="APROVACAO_LIDERANCA" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO DA LIDERANÇA</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="ESCOPO_APROVADO_LIDERANCA">Escopo aprovado:</label>
+						    			<select name="ESCOPO_APROVADO_LIDERANCA" id="ESCOPO_APROVADO_LIDERANCA" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBSERVACAO_LIDERANCA">Observações liderança:</label>
+				    		<textarea id="OBSERVACAO_LIDERANCA" name="OBSERVACAO_LIDERANCA" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	
+	<div id="CONFECCCAO_CONTRATO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">ANALISE JURÍDICA:</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+				   		<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_CONTRATO_JURIDICO">Observações jurídico:</label>
+				    		<textarea id="OBS_CONTRATO_JURIDICO" name="OBS_CONTRATO_JURIDICO" value="" class="form-control" rows="4"></textarea>
+				   		</div>
+				   		<div class='form-group col-xs-12 col-md-12'>
+						<label for="ANEXO_CONTRATO_JURIDICO">Anexo do documento assinado:</label>
+						<input type="button" class="form-control" name="ANEXO_CONTRATO_JURIDICO" id="ANEXO_CONTRATO_JURIDICO" value="Clique para anexar" onclick="showCamera()">
+				  		</div>
+				 </div>
+
+			   </div>
+	    	</div> 
+	  </div>
+	  
+	  <input type="hidden" class="form-control" name="TEMPO_ATIVIDADE" id="TEMPO_ATIVIDADE">
+	  <input type="hidden" class="form-control" name="ATIVIDADE" id="ATIVIDADE" value="0">
+
+		<!-- ============================================================================================================================= -->
+</form>
+</div>
+</body>
+</html>
