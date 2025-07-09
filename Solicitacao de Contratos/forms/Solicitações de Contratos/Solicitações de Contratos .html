@@ -1,0 +1,836 @@
+	<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body onload="onload()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+<input type="hidden" id="NUMERO_ATIVIDADE" name="NUMERO_ATIVIDADE" >
+								
+
+	<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>DADOS DA SOLICITAÇÃO</h3>
+    </div>
+    <div class="panel-body">
+    
+		<div class="row">
+	
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="TIPO_SOLICITACAO">Tipo:</label> 
+                  		<select name="TIPO_SOLICITACAO" id="TIPO_SOLICITACAO" class="form-control" onchange="mostraTipoSolicitacao()">
+               		 		<option value="CONTRATO">Novo Contrato</option>
+               		 		<option value="ADTIVO" >Aditivos</option>
+               		 		<option value="RECISAO">Rescisão</option>
+            		  	</select>	
+			</div>
+	
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="NOME_SOLICITANTE">Solicitante:</label>
+				<input type="zoom" class="form-control" name="NOME_SOLICITANTE" id="NOME_SOLICITANTE"
+                                            data-zoom="{
+                                                    'displayKey':'NOME',
+                                                        'datasetId':'ds_funcionarios_ativos',                                 
+                                                        'placeholder': 'Nome solicitante',
+                                                            'fields':[
+                                                            {
+                                                            'field':'NOME',
+                                                            'label':'Nome solicitante',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->    
+			</div>
+			
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="CENTRO_DE_CUSTO">Centro de custo:</label>
+				<input type="zoom" class="form-control" name="CENTRO_DE_CUSTO" id="CENTRO_DE_CUSTO"
+                                            data-zoom="{
+                                                    'displayKey':'CCUSTO',
+                                                        'datasetId':'ds_responsavel_centro_custo',                                 
+                                                        'placeholder': 'Cod. Centro de Custos ou Nome',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CCUSTO',
+                                                            'label':'Cod. Centro de Custos ou Nome',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->   
+			</div>
+		
+			<div class="form-group col-xs-12 col-md-3">
+				<label for="RESP_CENTRO_DE_CUSTO">Responsável centro de custo:</label>
+				<input type="text" name="RESP_CENTRO_DE_CUSTO" id="RESP_CENTRO_DE_CUSTO" value="" class="form-control" readOnly="readOnly">
+				    	
+				
+			</div>
+			
+			<div class="form-group col-xs-12 col-md-12">
+				<label for="OBJ_CONTRATO">Objeto do contrato:</label>
+				<textarea id="OBJ_CONTRATO" name="OBJ_CONTRATO" value="" class="form-control" rows="4"></textarea>
+			</div>
+		
+		
+		</div>
+		<!-- ============================================================================================================================= -->
+
+			
+		</div>
+		</div>
+	<div id="CONTRATOS">
+		<div class="panel panel-primary">
+		
+		    <div class="panel-heading">
+		        <h3 class="panel-title">CONSIDERAÇÕES GERAIS - NOVO CONTRATO</h3>
+		    </div>
+		    <div class="panel-body">
+				
+		    	<div class="row">
+			  
+						<div class="form-group col-xs-12 col-md-4">
+									<label for="PRAZO_DE_ENTREGA">Dias para mobilização, disponibilização de máquinas e/ou equipamentos :</label>
+						    		<input type="number" name="PRAZO_DE_ENTREGA" id="PRAZO_DE_ENTREGA" value="" class="form-control">	
+						    			
+				    	</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="CENTRO_DE_CUSTO_ENTREGA">Local de entrega/execução:</label>
+				    		<input type="zoom" class="form-control" name="CENTRO_DE_CUSTO_ENTREGA" id="CENTRO_DE_CUSTO_ENTREGA"
+                                            data-zoom="{
+                                                    'displayKey':'CCUSTO',
+                                                        'datasetId':'ds_responsavel_centro_custo',                                 
+                                                        'placeholder': 'Centro de custo',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CCUSTO',
+                                                            'label':'Centro de custo',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->   
+		
+				        </div>
+						<div class="form-group col-xs-12 col-md-4">
+							<label for="ENDEREÇO_DE_ENTREGA">Endereço de entrega/execução:</label>
+				    		<input type="text" name="ENDERECO_DE_ENTREGA" id="ENDEREÇO_DE_ENTREGA" value="" class="form-control">
+				    	</div>
+				    
+				  </div>
+				  <div class="row">
+				    	<div class="form-group col-xs-12 col-md-4">
+								<label for="INICIO_VIGENCIA">Inicio da vigência:</label>
+					    		<input type="date" name="INICIO_VIGENCIA" id="INICIO_VIGENCIA" value="" class="form-control">
+					    	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+								<label for="FIM_VIGENCIA">Fim da vigência:</label>
+					    		<input type="date" name="FIM_VIGENCIA" id="FIM_VIGENCIA" value="" class="form-control">
+					    	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="QUANTIDADE_DIAS_PARA_MEDICAO">Período de Medição (em dias):</label>
+				    		<input type="text" name="QUANTIDADE_DIAS_PARA_MEDICAO" id="QUANTIDADE_DIAS_PARA_MEDICAO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+							<label for="PRAZO_DEPAGAMENTO">Prazo de pagamento:</label>
+				    		<input type="text" name="PRAZO_DEPAGAMENTO" id="PRAZO_DEPAGAMENTO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+							<label for="GARANTIA">Garantia:</label>
+							<input type="text" name="GARANTIA" id="GARANTIA" value="" class="form-control">
+				    
+				    	</div>
+				    
+		    	</div>
+		    	 <hr>
+				        <h3 class="panel-title">OBRIGAÇÕES:</h3>
+				        
+				  <br>
+				   <div class="row">
+				      	<div class="form-group col-xs-12 col-md-6">
+		            		  		<div class="custom-radio custom-radio-primary">
+											<label for="CRONOGRAMA_SERVICO">Cronograma dos serviços:</label>
+    										<input type="radio" name="CRONOGRAMA_SERVICO" value="PRIMEIRO" id="CRONOGRAMA_SERVICO_1">
+    										<label for="CRONOGRAMA_SERVICO_1">Contratada</label>
+
+    										<input type="radio" name="CRONOGRAMA_SERVICO" value="SEGUNDO" id="CRONOGRAMA_SERVICO_2">
+    										<label for="CRONOGRAMA_SERVICO_2">Contratante</label>
+
+    										<input type="radio" name="CRONOGRAMA_SERVICO" value="TERCEIRO" id="CRONOGRAMA_SERVICO_3">
+    										<label for="CRONOGRAMA_SERVICO_3">Não se aplica</label>
+									</div>		
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-2">
+							<label for="TIPOS_CRONOGRAMA">Tipos de cronograma:</label>
+						</div>
+						<div class="form-group col-xs-12 col-md-4">
+							<input type="text" name="TIPOS_CRONOGRAMA" id="TIPOS_CRONOGRAMA" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-12">
+						    			<div class="custom-radio custom-radio-primary">
+											<label for="MATERIAIS_ULTILIZADOS">Material utilizado:</label>
+    										<input type="radio" name="MATERIAIS_ULTILIZADOS" value="PRIMEIRO" id="MATERIAIS_ULTILIZADOS_1">
+    										<label for="MATERIAIS_ULTILIZADOS_1">Contratada</label>
+
+    										<input type="radio" name="MATERIAIS_ULTILIZADOS" value="SEGUNDO" id="MATERIAIS_ULTILIZADOS_2">
+    										<label for="MATERIAIS_ULTILIZADOS_2">Contratante</label>
+
+    										<input type="radio" name="MATERIAIS_ULTILIZADOS" value="TERCEIRO" id="MATERIAIS_ULTILIZADOS_3">
+    										<label for="MATERIAIS_ULTILIZADOS_3">Não se aplica</label>
+									</div>		
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-12">
+						    		<div class="custom-radio custom-radio-primary">
+											<label for="MOBILIZACAO_CLIENTE">Mobilização no cliente:</label>
+    										
+    										<input type="radio" name="MOBILIZACAO_CLIENTE" value="PRIMEIRO" id="MOBILIZACAO_CLIENTE_1">
+    										<label for="MOBILIZACAO_CLIENTE_1">Contratada</label>
+
+    										<input type="radio" name="MOBILIZACAO_CLIENTE" value="SEGUNDO" id="MOBILIZACAO_CLIENTE_2">
+    										<label for="MOBILIZACAO_CLIENTE_2">Contratante</label>
+
+    										<input type="radio" name="MOBILIZACAO_CLIENTE" value="TERCEIRO" id="MOBILIZACAO_CLIENTE_3">
+    										<label for="MOBILIZACAO_CLIENTE_3">Não se aplica</label>
+									</div>		
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-12">
+						    		<div class="custom-radio custom-radio-primary">
+											<label for="DESMOBILIZACAO_CLIENTE">Desmobilização no cliente:</label>
+    										<input type="radio" name="DESMOBILIZACAO_CLIENTE" value="PRIMEIRO" id="DESMOBILIZACAO_CLIENTE_1">
+    										<label for="DESMOBILIZACAO_CLIENTE_1">Contratada</label>
+
+    										<input type="radio" name="DESMOBILIZACAO_CLIENTE" value="SEGUNDO" id="DESMOBILIZACAO_CLIENTE_2">
+    										<label for="DESMOBILIZACAO_CLIENTE_2">Contratante</label>
+
+    										<input type="radio" name="DESMOBILIZACAO_CLIENTE" value="TERCEIRO" id="DESMOBILIZACAO_CLIENTE_3">
+    										<label for="DESMOBILIZACAO_CLIENTE_3">Não se aplica</label>
+									</div>		
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-12">
+						    		<div class="custom-radio custom-radio-primary">
+											<label for="REGISTRO_CLT">Registro CLT:</label>
+    										<input type="radio" name="REGISTRO_CLT" value="PRIMEIRO" id="REGISTRO_CLT_1">
+    										<label for="REGISTRO_CLT_1">Contratada</label>
+
+    										<input type="radio" name="REGISTRO_CLT" value="SEGUNDO" id="REGISTRO_CLT_2">
+    										<label for="REGISTRO_CLT_2">Contratante</label>
+
+    										<input type="radio" name="REGISTRO_CLT" value="TERCEIRO" id="REGISTRO_CLT_3">
+    										<label for="REGISTRO_CLT_3">Não se aplica</label>
+									</div>		
+				    	</div>
+				</div>
+			<hr>
+					<div class="row">
+						<div class="form-group col-xs-12 col-md-6">
+									<label for="MULTAS">Passível de multa:</label>
+						    			<select name="MULTAS" id="MULTAS" class="form-control" onclick="passivoMulta()">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+							<label for="MULTAS_PREVISTAS">Multas previstas na negociação:</label>
+				    		<input type="text" name="MULTAS_PREVISTAS" id="MULTAS_PREVISTAS" value="" class="form-control">
+				    	</div>
+						<div class="form-group col-xs-12 col-md-6">
+									<label for="DISPONIBILIDADE_FISICA">Disponibilidade física dos equipamentos:</label>
+						    			<select name="DISPONIBILIDADE_FISICA" id="DISPONIBILIDADE_FISICA" class="form-control" onclick="passivoMulta()">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="PADRAO">Disponibilidade padrão Tradimaq</option>
+				               		 		<option value="LOCATARIA">Disponibilidade enviada pela locataria </option>
+				               		 		
+		            		  		</select>	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+							<label for="ANEXO_DISPONIBILIDADE">Anexo Disponibilidade</label>
+				    		<input type="button" class="form-control" name="ANEXO_DISPONIBILIDADE" id="ANEXO_DISPONIBILIDADE" value="Clique para anexar" onclick="showCamera()">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-12">
+							<label for="PERCENTUAL_RECISAO">Percentual sobre o faturamento do mês, definido pelas partes quando houver descumprimento das cláusulas contratuais:</label>
+				    		<input type="text" name="PERCENTUAL_RECISAO" id="PERCENTUAL_RECISAO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+									<label for="HIPOTESE_RESCISAO">Hipóteses de rescisão: </label>
+						    			<select name="HIPOTESE_RESCISAO" id="HIPOTESE_RESCISAO" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>
+				               		 		<option value="Locatária" >Imotivada à critério da Locatária no prazo de _____ dias de antecedência. </option>
+				               		 		<option value="Locadora" >Imotivada à critério da Locadora no prazo de _____ dias de antecedência.</option>
+				               		 		<option value="PARTES" >Imotivada à critério das Partes no prazo de __dias de antecedência.</option>
+		            		  		</select>	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-6">
+							<label for="PRAZO_RECISAO">Prazo da hipótese definida (em dias):</label>
+				    		<input type="number" name="PRAZO_RECISAO" id="PRAZO_RECISAO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+									<label for="SUGESTAO_FORNECEDOR">Sugestão de Fornecedor:</label>
+						    			<select name="SUGESTAO_FORNECEDOR" id="SUGESTAO_FORNECEDOR" class="form-control" onclick="sugestaoFornecedor()">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="CNPJ_SUGESTAO">CNPJ:</label>
+				    		<input type="text" name="CNPJ_SUGESTAO" id="CNPJ_SUGESTAO" value="" class="form-control" mask="00.000.000/0000-00">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="RAZAO_SOCIAL_SUGESTAO">Razão Social:</label>
+				    		<input type="text" name="RAZAO_SOCIAL_SUGESTAO" id="RAZAO_SOCIAL_SUGESTAO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="RESPONSAVEL_SUGESTAO">Responsável:</label>
+				    		<input type="text" name="RESPONSAVEL_SUGESTAO" id="RESPONSAVEL_SUGESTAO" value="" class="form-control">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="TELEFONE_SUGESTAO">Telefone:</label>
+				    		<input type="text" name="TELEFONE_SUGESTAO" id="TELEFONE_SUGESTAO" value="" class="form-control" mask="(00)00000-0000">
+				    	</div>
+				    	<div class="form-group col-xs-12 col-md-4">
+							<label for="EMAIL_SUGESTAO">E-mail:</label>
+				    		<input type="text" name="EMAIL_SUGESTAO" id="EMAIL_SUGESTAO" value="" class="form-control">
+				    	</div>
+				    	
+				    	<div class="form-group col-xs-12 col-md-12">
+							<label for="JUSTIFICATIVA_SUGESTAO">Justificativa de Indicação:</label>
+				    		<textarea id="JUSTIFICATIVA_SUGESTAO" name="JUSTIFICATIVA_SUGESTAO" value="" class="form-control" rows="4"></textarea>
+				    	</div>
+	
+			    	</div>
+			    	
+	    		<hr>
+	    			<div class="row">
+	    				<table id="TABELA_CONTRATOS" class="table" cellspacing="0" tablename="TABELA_CONTRATOS" noaddbutton="true" customFnDelete="deleteLinhaTabela(this, 'TABELA_CONTRATOS')">
+							       <thead>         
+										<tr class="tableHeadRow">             
+											<h4 align="left">QUADRO DE QUANTIDADES E PREÇOS:</h4>             
+										</tr>     
+							       </thead>     
+							       <tbody>         
+									<tr>  
+									<td>
+									<div class="row">           
+											<div class="form-group col-xs-12 col-md-6">   
+											    <label for="ITEM_CONTRATOS">ITEM:</label>             
+												<input type="text" 	id="ITEM_CONTRATOS" name="ITEM_CONTRATOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div>                          
+											<div class="form-group col-xs-12 col-md-6"> 
+												<label for="DESCROCAO_SERV_CONTRATOS">DESCRIÇÃO DO SERVIÇO/EQUIPAMENTO:</label>                     
+												<input type="text" id="DESCROCAO_SERV_CONTRATOS" name="DESCROCAO_SERV_CONTRATOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div>             
+									</div>  
+									<div class="row">     
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="UNIDADE_CONTRATOS">UNIDADE:</label>                      
+												<input type="text" id="UNIDADE_CONTRATOS" name="UNIDADE_CONTRATOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div> 
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="QUANT_MENSAL_CONTRATOS">QUANTIDADE MENSAL:</label>                      
+												<input type="number" id="QUANT_MENSAL_CONTRATOS" name="QUANT_MENSAL_CONTRATOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div> 
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="PRECO_UNID_CONTRATOS">PREÇO UNITÁRIO:</label>                      
+												<input type="text" id="PRECO_UNID_CONTRATOS" name="PRECO_UNID_CONTRATOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" mask="#00.000.000.000.000,00"/>                 
+											</div> 
+									</div>  
+									</td>     
+									</tr>     
+								</tbody> 
+								</table>
+				    	    
+					    	    <button type="button" class="btn btn-primary" name="TABELA_CONTRATOS_BOTAO" id="TABELA_CONTRATOS_BOTAO" onclick="addLinhaTabela('TABELA_CONTRATOS')">Novo Registro</button>
+								<input type="hidden" id="TABELA_CONTRATOS_PRIMEIRO" name="TABELA_CONTRATOS_PRIMEIRO" value="0">
+								<input type="hidden" id="TABELA_CONTRATOS_ULTIMO" name="TABELA_CONTRATOS_ULTIMO" value="0">
+								
+	    			</div>
+	    			<br>
+	    			<hr>
+	    			<div class="row">
+	    			
+						<div class="form-group col-xs-12 col-md-6"> 
+	    					<label for="CALCULARTOTAL_CONTRATOS">Calcular total:</label>
+							<input type="button" class="form-control btn-primary" name="CALCULARTOTAL_CONTRATOS" id="CALCULARTOTAL_CONTRATOS" value="Calcular" onclick="calculaContratos();">
+						</div> 
+						<div class="form-group col-xs-12 col-md-6"> 
+								<label for="TOTAL_QQP_CONTRATOS">Total QQP:</label>                     
+								<input type="text" id="TOTAL_QQP_CONTRATOS" name="TOTAL_QQP_CONTRATOS" class="form-control" readOnly="readOnly" />                 
+					    </div> 
+					
+					</div>	    	
+	    	</div>
+		</div>
+	</div>
+	<div id="ADTIVOS" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">CONSIDERAÇÕES GERAIS - ADITIVO</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">	
+			     	<div class="form-group col-xs-12 col-md-3">
+							<label for="N_CONTRATO_ADTIVOS">Nº do contrato:</label>
+							<input type="zoom" class="form-control" name="N_CONTRATO_ADTIVOS" id="N_CONTRATO_ADTIVOS"
+			                                            data-zoom="{
+			                                                    'displayKey':'CONTRATO',
+			                                                        'datasetId':'ds_contratos_ativos',                                 
+			                                                        'placeholder': '',
+			                                                            'fields':[
+			                                                            {
+			                                                            'field':'CONTRATO',
+			                                                            'label':'Contrato',
+			                                                            'standard':'true'
+			                                                            }
+			                                                        ]
+			                                                    }"
+			                                        /><!-- End Input zoom -->   
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="RAZAO_SOCIAL_ADTIVOS">Razão Social:</label>
+							<input type="text" name="RAZAO_SOCIAL_ADTIVOS" id="RAZAO_SOCIAL_ADTIVOS" value="" class="form-control" readOnly="readOnly">
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="CONTATO_ADTIVOS">Contato:</label>
+				    		<input type="text" name="CONTATO_ADTIVOS" id="CONTATO_ADTIVOS" value="" class="form-control">
+				    </div>
+				    <div class="form-group col-xs-12 col-md-3">
+							<label for="TELEFONE_ADTIVOS">Telefone:</label>
+				    		<input type="text" name="TELEFONE_ADTIVOS" id="TELEFONE_ADTIVOS" value="" class="form-control" mask="(00)00000-0000">
+				    </div>		
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="DETALHAMENTO_SUGESTAO">Detalhamento do Aditivo:</label>
+				    		<textarea id="DETALHAMENTO_SUGESTAO" name="DETALHAMENTO_SUGESTAO" value="" class="form-control" rows="4"></textarea>
+				   </div>
+				</div>   
+				    <br>
+					<hr>
+							      
+				   <div class="row">
+	    				<table id="TABELA_ADTIVOS" class="table" cellspacing="0" tablename="TABELA_ADTIVOS" noaddbutton="true" customFnDelete="deleteLinhaTabela(this, 'TABELA_ADTIVOS')">
+							    
+							       <thead>         
+										<tr class="tableHeadRow">             
+											<h4 align="left">QUADRO DE QUANTIDADES E PREÇOS:</h4>             
+										</tr>     
+							       </thead>     
+							       <tbody>         
+									<tr>  
+									<td>
+									<div class="row">           
+											<div class="form-group col-xs-12 col-md-6">   
+											    <label for="ITEM_ADTIVOS">ITEM:</label>             
+												<input type="text" id="ITEM_ADTIVOS" name="ITEM_ADTIVOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div>                          
+											<div class="form-group col-xs-12 col-md-6"> 
+												<label for="DESCROCAO_SERV_ADTIVOS">DESCRIÇÃO DO SERVIÇO:</label>                     
+												<input type="text" id="DESCROCAO_SERV_ADTIVOS" name="DESCROCAO_SERV_ADTIVOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div>             
+									</div>  
+									<div class="row">     
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="UNIDADE_ADTIVOS">UNIDADE:</label>                      
+												<input type="text" id="UNIDADE_ADTIVOS" name="UNIDADE_ADTIVOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div> 
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="QUANT_MENSAL_ADTIVOS">QUANTIDADE MENSAL:</label>                      
+												<input type="number" id="QUANT_MENSAL_ADTIVOS" name="QUANT_MENSAL_ADTIVOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" />                 
+											</div> 
+											<div class="form-group col-xs-12 col-md-4">
+												<label for="PRECO_UNID_ADTIVOS">PREÇO UNITÁRIO:</label>                      
+												<input type="text" id="PRECO_UNID_ADTIVOS" name="PRECO_UNID_ADTIVOS" class="form-control" onchange="quantidadePecasAtendimentoCampo(this)" maxlength="200" mask="#00.000.000.000.000,00"/>                 
+											</div> 
+									</div>  
+									</td>     
+									</tr>     
+								</tbody> 
+								</table>
+				    	    
+					    	    <button type="button" class="btn btn-primary" name="TABELA_ADTIVOS_BOTAO" id="TABELA_ADTIVOS_BOTAO" onclick="addLinhaTabela('TABELA_ADTIVOS')">Novo Registro</button>
+								<input type="hidden" id="TABELA_ADTIVOS_PRIMEIRO" name="TABELA_ADTIVOS_PRIMEIRO" value="0">
+								<input type="hidden" id="TABELA_ADTIVOS_ULTIMO" name="TABELA_ADTIVOS_ULTIMO" value="0">
+								
+	    			</div>
+	    			<br>
+	    			<hr>
+	    			<div class="row">
+	    			
+						<div class="form-group col-xs-12 col-md-6"> 
+	    					<label for="CALCULARTOTAL_ADTIVOS">Calcular total:</label>
+							<input type="button" class="form-control btn-primary" name="CALCULARTOTAL_ADTIVOS" id="CALCULARTOTAL_ADTIVOS" value="Calcular" onclick="calculaAditivos();">
+						</div> 
+						<div class="form-group col-xs-12 col-md-6"> 
+								<label for="TOTAL_QQP_ADTIVOS">Total QQP:</label>                     
+								<input type="text" id="TOTAL_QQP_ADTIVOS" name="TOTAL_QQP_ADTIVOS" class="form-control" readOnly="readOnly" />                 
+					    </div> 
+					
+					</div>	 
+	    			
+			   </div>
+			</div>
+			
+		   
+	</div>
+	<div id="RECISAO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">CONSIDERAÇÕES GERAIS - RESCISÃO</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			     	<div class="form-group col-xs-12 col-md-3">
+							<label for="N_CONTRATO_RESCISAO">Nº do contrato que será rescindido:</label>
+							<input type="zoom" class="form-control" name="N_CONTRATO_RESCISAO" id="N_CONTRATO_RESCISAO"
+			                                            data-zoom="{
+			                                                    'displayKey':'CONTRATO',
+			                                                        'datasetId':'ds_contratos_ativos',                                 
+			                                                        'placeholder': 'Contratos',
+			                                                            'fields':[
+			                                                            {
+			                                                            'field':'CONTRATO',
+			                                                            'label':'',
+			                                                            'standard':'true'
+			                                                            }
+			                                                        ]
+			                                                    }"
+			                                        /><!-- End Input zoom -->   
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="RAZAO_SOCIAL_RESCISAO">Razão Social:</label>
+							<input type="text" name="RAZAO_SOCIAL_RESCISAO" id="RAZAO_SOCIAL_RESCISAO" value="" class="form-control" readOnly="readOnly">
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+							<label for="CONTATO_RESCISAO">Contato:</label>
+				    		<input type="text" name="CONTATO_RESCISAO" id="CONTATO_RESCISAO" value="" class="form-control">
+				    </div>
+				    <div class="form-group col-xs-12 col-md-3">
+							<label for="TELEFONE_RESCISAO">Telefone:</label>
+				    		<input type="text" name="TELEFONE_RESCISAO" id="TELEFONE_RESCISAO" value="" class="form-control" mask="(00)00000-0000">
+				    </div>
+			</div>
+			<div class="row">
+				    <div class="form-group col-xs-12 col-md-3">
+								<label for="INICIO_VIGENCIA_RESCISAO">Fornecedor informado em:</label>
+					    		<input type="date" name="INICIO_VIGENCIA_RESCISAO" id="INICIO_VIGENCIA_RESCISAO" value="" class="form-control">
+					    	
+				    </div>
+					<div class="form-group col-xs-12 col-md-3">
+								<label for="ULTIMO_PAGAMENTO_RESCISAO">Data do último pagamento:</label>
+					    		<input type="date" name="ULTIMO_PAGAMENTO_RESCISAO" id="ULTIMO_PAGAMENTO_RESCISAO" value="" class="form-control">
+					    	
+				    </div>
+				    <div class="form-group col-xs-12 col-md-3">
+								<label for="VALOR_RESCISAO">Foi negociado algum valor de multa?</label>
+					    		<input type="number" name="VALOR_RESCISAO" id="VALOR_RESCISAO" value="" class="form-control">
+					    	
+				    </div>		
+				    <div class="form-group col-xs-12 col-md-3">
+								<label for="ULTIMA_PRESTACAO_RESCISAO">Data do último dia da prestação do serviço:</label>
+					    		<input type="date" name="ULTIMA_PRESTACAO_RESCISAO" id="ULTIMA_PRESTACAO_RESCISAO" value="" class="form-control">
+					    	
+				    </div>				
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="DETALHAMENTO_SUGESTAO_RESCISAO">Detalhamento da Rescisão:</label>
+				    		<textarea id="DETALHAMENTO_SUGESTAO_RESCISAO" name="DETALHAMENTO_SUGESTAO_RESCISAO" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			</div>
+			   </div>
+			</div>
+			
+		   
+	</div>
+	<div id="APROVACAO_LIDERANCA" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO DA LIDERANÇA</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="ESCOPO_APROVADO_LIDERANCA">Escopo aprovado:</label>
+						    			<select name="ESCOPO_APROVADO_LIDERANCA" id="ESCOPO_APROVADO_LIDERANCA" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBSERVACAO_LIDERANCA">Observações liderança:</label>
+				    		<textarea id="OBSERVACAO_LIDERANCA" name="OBSERVACAO_LIDERANCA" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="APRESENTACAO_COTACAO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">NEGOCIAÇÕES DE COMPRA</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    <div class='form-group col-xs-12 col-md-12'>
+						<label for="ANEXOS_COTACAO">Anexos Cotação:</label>
+						<input type="button" class="form-control" name="ANEXOS_COTACAO" id="ANEXOS_COTACAO" value="Clique para anexar" onclick="showCamera()">
+				</div>
+				<div class="form-group col-xs-12 col-md-4">
+								<label for="FORNECEDOR1_COTACAO">Fornecedor 1:</label>
+					    		<input type="text" name="FORNECEDOR1_COTACAO" id="FORNECEDOR1_COTACAO" value="" class="form-control">
+					    	
+				</div>
+				<div class="form-group col-xs-12 col-md-4">
+								<label for="FORNECEDOR2_COTACAO">Fornecedor 2:</label>
+					    		<input type="text" name="FORNECEDOR2_COTACAO" id="FORNECEDOR2_COTACAO" value="" class="form-control">
+					    	
+				</div> 
+				<div class="form-group col-xs-12 col-md-4">
+								<label for="FORNECEDOR3_COTACAO">Fornecedor 3:</label>
+					    		<input type="text" name="FORNECEDOR3_COTACAO" id="FORNECEDOR3_COTACAO" value="" class="form-control">
+					    	
+				</div>
+				<div class="form-group col-xs-12 col-md-12">
+							<label for="FORNECEDOR_ESCOLHA_COTACAO">Fornecedor recomendado:</label>
+							<input type="zoom" class="form-control" name="FORNECEDOR_ESCOLHA_COTACAO" id="FORNECEDOR_ESCOLHA_COTACAO"
+			                                            data-zoom="{
+			                                                    'displayKey':'NOMEFANTASIA',
+			                                                        'datasetId':'ds_cliente_fornecedor',                                 
+			                                                        'placeholder': '',
+			                                                            'fields':[
+			                                                            {
+			                                                            'field':'NOMEFANTASIA',
+			                                                            'label':'Fornecedor',
+			                                                            'standard':'true'
+			                                                            }
+			                                                        ]
+			                                                    }"
+			                                        /><!-- End Input zoom -->   
+					</div>
+					
+					
+					<div class="form-group col-xs-12 col-md-12">
+								<label for="DADO_BANCARIO_COTACAO">Dados bancários (PIX ou Transferência):</label>
+					   			<input type="text" name="DADO_BANCARIO_COTACAO" id="DADO_BANCARIO_COTACAO" value="" class="form-control">
+					</div>
+						<h4>Dados do Responsável legal que irá assinar:</h4>
+					
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="NOME_RESPONSAVEL_COTACAO">Nome:</label>
+					    		<input type="text" name="NOME_RESPONSAVEL_COTACAO" id="NOME_RESPONSAVEL_COTACAO" value="" class="form-control">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="TELEFONE_RESPONSAVEL_COTACAO">Telefone:</label>
+					    		<input type="text" name="TELEFONE_RESPONSAVEL_COTACAO" id="TELEFONE_RESPONSAVEL_COTACAO" value="" class="form-control"  mask="(00)00000-0000">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="EMAIL_RESPONSAVEL_COTACAO">E-mail:</label>
+					    		<input type="text" name="EMAIL_RESPONSAVEL_COTACAO" id="EMAIL_RESPONSAVEL_COTACAO" value="" class="form-control">
+					    	
+					</div>
+			
+						<h4>Dados da primeira testemunha que irá assinar:</h4>
+					
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="NOME_TESTEMUNHA_COTACAO1">Nome:</label>
+					    		<input type="text" name="NOME_TESTEMUNHA_COTACAO1" id="NOME_TESTEMUNHA_COTACAO1" value="" class="form-control">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="TELEFONE_TESTEMUNHA_COTACAO1">Telefone:</label>
+					    		<input type="text" name="TELEFONE_TESTEMUNHA_COTACAO1" id="TELEFONE_TESTEMUNHA_COTACAO1" value="" class="form-control"  mask="(00)00000-0000">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="EMAIL_TESTEMUNHA_COTACAO1">E-mail:</label>
+					    		<input type="text" name="EMAIL_TESTEMUNHA_COTACAO1" id="EMAIL_TESTEMUNHA_COTACAO1" value="" class="form-control">
+					    	
+					</div>
+					
+						<h4>Dados da segunda testemunha que irá assinar:</h4>
+						
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="NOME_TESTEMUNHA_COTACAO2">Nome:</label>
+					    		<input type="text" name="NOME_TESTEMUNHA_COTACAO2" id="NOME_TESTEMUNHA_COTACAO2" value="" class="form-control">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="TELEFONE_TESTEMUNHA_COTACAO2">Telefone:</label>
+					    		<input type="text" name="TELEFONE_TESTEMUNHA_COTACAO2" id="TELEFONE_TESTEMUNHA_COTACAO2" value="" class="form-control"  mask="(00)00000-0000">
+					    	
+					</div>
+					<div class="form-group col-xs-12 col-md-4">
+								<label for="EMAIL_TESTEMUNHA_COTACAO2">E-mail:</label>
+					    		<input type="text" name="EMAIL_TESTEMUNHA_COTACAO2" id="EMAIL_TESTEMUNHA_COTACAO2" value="" class="form-control">
+					    	
+					</div>
+			
+					<div class='form-group col-xs-6 col-md-4'>
+						<label for="ANEXO_CONTRATO_SOCIAL">Anexo contrato social:</label>
+						<input type="button" class="form-control" name="ANEXO_CONTRATO_SOCIAL" id="ANEXO_CONTRATO_SOCIAL" value="Clique para anexar" onclick="showCamera()">
+					</div>
+					<div class='form-group col-xs-6 col-md-4'>
+						<label for="ANEXO_ULT_ALTERACAO">Anexo última alteração :</label>
+						<input type="button" class="form-control" name="ANEXO_ULT_ALTERACAO" id="ANEXO_ULT_ALTERACAO" value="Clique para anexar" onclick="showCamera()">
+					</div>
+					<div class='form-group col-xs-6 col-md-4'>
+						<label for="ANEXO_SOCIO_RESP">Anexo documentação do sócio responsável:</label>
+						<input type="button" class="form-control" name="ANEXO_SOCIO_RESP" id="ANEXO_SOCIO_RESP" value="Clique para anexar" onclick="showCamera()">
+					</div>    
+					<div class="form-group col-xs-12 col-md-12">
+							<label for="OBSERVACAO_COTACAO">Observações comprador:</label>
+				    		<textarea id="OBSERVACAO_COTACAO" name="OBSERVACAO_COTACAO" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   
+		  </div>
+		</div> 
+	  </div>
+	</div>
+	<div id="APROVACAO_LIDERANCA_COMPRAS" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO LIDERANÇA - COMPRAS:</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="APROVADO_LIDERANCA_COMPRAS">Escopo aprovado:</label>
+						    			<select name="APROVADO_LIDERANCA_COMPRAS" id="APROVADO_LIDERANCA_COMPRAS" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_LIDER_COMP">Observação liderança:</label>
+				    		<textarea id="OBS_LIDER_COMP" name="OBS_LIDER_COMP" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="APROVACAO_SUPERINTENDENCIA" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">APROVAÇÃO SUPERINTENDÊNCIA:</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-12">
+									<label for="APROVADO_SUPERINTENDENCIA">Escopo aprovado:</label>
+						    			<select name="APROVADO_SUPERINTENDENCIA" id="APROVADO_SUPERINTENDENCIA" class="form-control" onclick="">	
+				               		 		<option value="VAZIO"></option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_SUPERINTENDENCIA">Observação Seuperintendência:</label>
+				    		<textarea id="OBS_SUPERINTENDENCIA" name="OBS_SUPERINTENDENCIA" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+	    </div> 
+	  </div>
+	</div>
+	<div id="CONFECCCAO_CONTRATO" >	
+			<div class="panel panel-primary">
+			    <div class="panel-heading">
+			        <h3 class="panel-title">CONFECCÇÃO DO CONTRATO, ADITIVO OU CARTA DE RESCISÃO:</h3>
+			    </div>
+			    <div class="panel-body">
+			    <div class="row">
+			    	<div class="form-group col-xs-12 col-md-6">
+									<label for="POSSUI_CONTRATO">Fornecedor já possui contrato:</label>
+						    			<select name="POSSUI_CONTRATO" id="POSSUI_CONTRATO" class="form-control" onclick="">	
+				               		 		<option value="VAZIO">Selecione...</option>	
+				               		 		<option value="SIM">Sim</option>
+				               		 		<option value="NAO">Não</option>
+				               		 		
+		            		  		</select>	
+				    </div>
+				    <div class='form-group col-xs-6 col-md-6'>
+						<label for="ANEXO_CONFECCCAO_CONTRATO">Anexo aditivo/contrato:</label>
+						<input type="button" class="form-control" name="ANEXO_CONFECCCAO_CONTRATO" id="ANEXO_CONFECCCAO_CONTRATO" value="Clique para anexar" onclick="showCamera()">
+					</div>
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_CONFECCCAO_CONTRATO">Observação compras:</label>
+				    		<textarea id="OBS_CONFECCCAO_CONTRATO" name="OBS_CONFECCCAO_CONTRATO" value="" class="form-control" rows="4"></textarea>
+				   </div>
+			   </div>
+			   <hr>
+				 <div class="row">
+				   	<div class="form-group col-xs-12 col-md-12">
+							<label for="OBS_CONTRATO_JURIDICO">Observação jurídico:</label>
+				    		<textarea id="OBS_CONTRATO_JURIDICO" name="OBS_CONTRATO_JURIDICO" value="" class="form-control" rows="4"></textarea>
+				   </div>
+				 <div class='form-group col-xs-12 col-md-12'>
+						<label for="ANEXO_CONTRATO_JURIDICO">Anexo do contrato assinado:</label>
+						<input type="button" class="form-control" name="ANEXO_CONTRATO_JURIDICO" id="ANEXO_CONTRATO_JURIDICO" value="Clique para anexar" onclick="showCamera()">
+					</div>
+				 </div>
+			 <hr>
+				 <div class="row">
+			   <div class="form-group col-xs-12 col-md-6">
+							<label for="NUMERO_DO_CONTRATO_INTE">Número do contrato:</label>
+				    		<input type="zoom" class="form-control" name="NUMERO_DO_CONTRATO_INTE" id="NUMERO_DO_CONTRATO_INTE"
+                                            data-zoom="{
+                                                    'displayKey':'CONTRATO',
+                                                        'datasetId':'ds_contratos_ativos',                                 
+                                                        'placeholder': '',
+                                                            'fields':[
+                                                            {
+                                                            'field':'CONTRATO',
+                                                            'label':'Numero do Contrato',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->   
+		
+				</div>
+				<div class="form-group col-xs-12 col-md-6">
+							<label for="RAZAO_SOCIAL">Razão social:</label>
+				    		<input type="text" name="RAZAO_SOCIAL" id="RAZAO_SOCIAL" value="" class="form-control" readOnly="readOnly">
+				 </div>
+				 </div>
+			   </div>
+	    </div> 
+	  </div>
+	
+	
+			
+		   
+			
+	
+		<!-- ============================================================================================================================= -->
+
+	
+<!-- <input type="hidden" value="0" name="hidden_tipo_cadastro" id="hidden_tipo_cadastro" /> -->
+<!-- <input type="hidden" value="0" name="hidden_entidade" id="hidden_entidade" /> -->
+<!-- <input type="hidden" value="0" name="hidden_categoria_fornecedor" id="hidden_categoria_fornecedor" /> -->
+<!-- ==================================================================================== -->
+<!-- <input type="hidden" value="0" name="hidden_estado_civil" id="hidden_estado_civil" /> -->
+<!-- <input type="hidden" value="0" name="hidden_forma_pagamento_pf" id="hidden_forma_pagamento_pf" /> -->
+<!-- <input type="hidden" value="0" name="hidden_tipo_conta_pf" id="hidden_tipo_conta_pf" /> -->
+<!-- ==================================================================================== -->
+<!-- <input type="hidden" value="0" name="hidden_forma_pagamento_pj" id="hidden_forma_pagamento_pj" /> -->
+<!-- <input type="hidden" value="0" name="hidden_tipo_conta_pj" id="hidden_tipo_conta_pj"/> -->
+
+</form>
+</div>
+</body>
+</html>

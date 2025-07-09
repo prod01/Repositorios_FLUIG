@@ -1,0 +1,169 @@
+<html>
+<head>
+	<script type="text/javascript" src="/webdesk/vcXMLRPC.js"></script>
+	<link type="text/css" rel="stylesheet" href="/style-guide/css/fluig-style-guide.min.css"/>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+	<script type="text/javascript" src="/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="script.js"></script>
+</head>
+<body  onload ="dataLancamento()">
+<div class="fluig-style-guide">
+<form name="form" role="form">
+
+	<div class="panel panel-primary" >
+		<div class="panel-heading">
+		        <h3 class="panel-title"><i class="fluigicon fluigicon-user icon-sm"></i>TESTE DE PRONTIDÃO</h3>
+		</div>
+		   	<div class="panel-body">
+				<div class="row">
+				
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="NOME_COMPLETO">Nome Completo:</label>
+						<input type="zoom" class="form-control" name="NOME_COMPLETO" id="NOME_COMPLETO"
+		                                            data-zoom="{
+		                                                    'displayKey':'P_NOME',
+		                                                        'datasetId':'DS_Nome_Funcionario',                                 
+		                                                        'placeholder': 'Nome solicitante',
+		                                                            'fields':[
+		                                                            {
+		                                                            'field':'P_NOME',
+		                                                            'label':'Nome NOME_COMPLETO',
+		                                                            'standard':'true'
+		                                                            }
+		                                                        ]
+		                                                    }"
+		                                        /><!-- End Input zoom -->    
+					</div>
+					
+						<input type="text" name="CHAPA" id="CHAPA" hidden="hidden">
+						<input type="text" name="EMAIL" id="EMAIL" hidden="hidden">
+						<input type="text" name="STATUS" id="STATUS" hidden="hidden">
+						<input type="text" name="IDCHAMADO" id="IDCHAMADO" hidden="hidden">
+						<input type="text" name="FUNCAO" id="FUNCAO" hidden="hidden">
+
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="lOCAL_BASE">local / Base:</label>
+						<input type="text" name="lOCAL_BASE" id="lOCAL_BASE" value="" class="form-control" readOnly="readOnly">
+						    	
+						
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="DATA_LANCAMENTO">Data:</label>
+						<input type="text" name="DATA_LANCAMENTO" id="DATA_LANCAMENTO" value="" class="form-control" readOnly="readOnly">
+						    	
+						
+					</div>
+					<div class="form-group col-xs-12 col-md-3">
+						<label for="HORA_LANCAMENTO">Hora:</label>
+						<input type="text" name="HORA_LANCAMENTO" id="HORA_LANCAMENTO" value="" class="form-control" readOnly="readOnly">
+						    	
+						
+					</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<div class="panel panel-primary">
+			<div class="panel-footer">
+			<strong>
+						Qual a probabilidade de você cochilar ou dormir, e não apenas se sentir cansado, nas seguintes situações? Considere o modo de vida que você tem levado recentemente.
+						<br>
+						Mesmo que você não tenha feito algumas destas coisas recentemente, tente imaginar como elas o afetariam. Escolha a opção mais apropriada para responder cada questão:
+			</strong>
+			</div>
+		   	<div class="panel-body">
+		   	
+				<div class="row">
+				<div class="form-group col-xs-12 col-md-12">
+					<label for="PERGUNTA_1">Fisicamente, sinto-me exausto:</label> 
+	                  		<select name="PERGUNTA_1" id="PERGUNTA_1" class="form-control" onchange="mostraTipoSolicitacao()">
+	               		 		<option value="NULO"></option>
+	               		 		<option value="0">Nunca cochilaria</option>
+	               		 		<option value="1">Pequena probabilidade de cochilar</option>
+	               		 		<option value="2">Probabilidade média de cochilar</option>
+	               		 		<option value="3">Grande probabilidade de cochilar</option>
+	               		 		
+	            		  	</select>	
+					</div>
+				
+					<div class="form-group col-xs-12 col-md-12">
+					<label for="PERGUNTA_2">Sentado e lendo:</label> 
+	                  		<select name="PERGUNTA_2" id="PERGUNTA_2" class="form-control" onchange="mostraTipoSolicitacao()">
+	               		 		<option value="NULO"></option>
+	               		 		<option value="0">Nunca cochilaria</option>
+	               		 		<option value="1">Pequena probabilidade de cochilar</option>
+	               		 		<option value="2">Probabilidade média de cochilar</option>
+	               		 		<option value="3">Grande probabilidade de cochilar</option>
+	               		 		
+	            		  	</select>	
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PERGUNTA_3">Assistindo TV:</label> 
+		                  		<select name="PERGUNTA_3" id="PERGUNTA_3" class="form-control" onchange="mostraTipoSolicitacao()">
+		               		 		<option value="NULO"></option>
+		               		 		<option value="0">Nunca cochilaria</option>
+	               		 			<option value="1">Pequena probabilidade de cochilar</option>
+	               		 			<option value="2">Probabilidade média de cochilar</option>
+	               		 			<option value="3">Grande probabilidade de cochilar</option>
+		            		  	</select>	
+					</div>
+			
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PERGUNTA_4">Sentado, quieto, em um lugar público  (por exemplo, em um teatro, reunião ou palestra):</label> 
+		                  		<select name="PERGUNTA_4" id="PERGUNTA_4" class="form-control" onchange="mostraTipoSolicitacao()">
+		               		 		<option value="NULO"></option>
+		               		 		<option value="0">Nunca cochilaria</option>
+	               		 			<option value="1" >Pequena probabilidade de cochilar</option>
+	               		 			<option value="2">Probabilidade média de cochilar</option>
+	               		 			<option value="3" >Grande probabilidade de cochilar</option>
+		            		  	</select>	
+					</div>
+					
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PERGUNTA_5">Andando de carro por uma hora sem parar, como passageiro:</label> 
+		                  		<select name="PERGUNTA_5" id="PERGUNTA_5" class="form-control" onchange="mostraTipoSolicitacao()">
+		               		 		<option value="NULO"></option>
+		               		 		<option value="0">Nunca cochilaria</option>
+	               		 			<option value="1" >Pequena probabilidade de cochilar</option>
+	               		 			<option value="2">Probabilidade média de cochilar</option>
+	               		 			<option value="3" >Grande probabilidade de cochilar</option>
+		            		  	</select>	
+					</div>
+			
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PERGUNTA_6">Sentado conversando com alguém:</label> 
+		                  		<select name="PERGUNTA_6" id="PERGUNTA_6" class="form-control" onchange="mostraTipoSolicitacao()">
+		               		 		<option value="NULO"></option>
+		               		 		<option value="0">Nunca cochilaria</option>
+	               		 			<option value="1" >Pequena probabilidade de cochilar</option>
+	               		 			<option value="2">Probabilidade média de cochilar</option>
+	               		 			<option value="3" >Grande probabilidade de cochilar</option>
+		            		  	</select>	
+					</div>
+
+					<div class="form-group col-xs-12 col-md-12">
+						<label for="PERGUNTA_7">Em um carro parado no trânsito por alguns minutos:</label> 
+		                  		<select name="PERGUNTA_8" id="PERGUNTA_8" class="form-control" onchange="mostraTipoSolicitacao()">
+		               		 		<option value="NULO"></option>
+		               		 		<option value="0">Nunca cochilaria</option>
+	               		 			<option value="1" >Pequena probabilidade de cochilar</option>
+	               		 			<option value="2">Probabilidade média de cochilar</option>
+	               		 			<option value="3" >Grande probabilidade de cochilar</option>
+		            		  	</select>	
+					</div>
+		
+			</div>
+		</div>
+		
+	</div>
+</form>
+</div>
+</body>
+</html>
