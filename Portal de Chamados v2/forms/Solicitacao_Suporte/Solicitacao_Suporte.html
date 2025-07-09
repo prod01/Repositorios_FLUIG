@@ -1,0 +1,328 @@
+<html>
+    <head>
+        <!-- Bibliotecas da Platforma Fluig (PadrÃ£o do Projeto) -->
+        <link type="text/css" rel="stylesheet" href="/portal/resources/style-guide/css/fluig-style-guide.min.css"/> <!-- Framework de Estilos Fluig  --> 
+        <script type="text/javascript" src="/portal/resources/js/jquery/jquery.js"></script>
+        <script type="text/javascript" src="/portal/resources/js/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="/portal/resources/js/mustache/mustache-min.js"></script>
+        <script type="text/javascript" src="/portal/resources/style-guide/js/fluig-style-guide.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="js/custom.js"> </script>
+        <script type="text/javascript" src="/webdesk/vcXMLRPC.js"> </script>
+        <!-- Folha de estilo customizada -->
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        
+    </head>
+
+    <body onload="consultaDataHora();vencimentoSLA();dataReabertura()">
+    
+        <div class="fluig-style-guide"><!-- Classe de estilo do Fluig -->
+        
+                <form name="form" role="form">
+                    <h2>Solicitação</h2> <!-- parÃ¢metro i18n.translate Ã© um padrÃ£o para que o fluig identifique que haverÃ¡ traduÃ§Ã£o, permitindo passar um rÃ³tulo e esse mesmo rÃ³tulo Ã© traduzido no arquivo .properties -->
+                        <fieldset id="solicitante" name="solicitante"> <!-- Start fildset -->
+                            <legend>Novo Chamado</legend>
+                                <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="NOMESOLICITANTE" id="lbl_name"class="control-label">Usuario</label>
+                                    <input type="text" class="form-control" name="NOMESOLICITANTE" id="NOMESOLICITANTE"> <!-- Campo nome solicitante -->
+                                </div>
+                                <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="EMAILSOLICITANTE" id="lbl_email" class="control-label">E-mail</label>
+                                    <input type="text" class="form-control" name="EMAILSOLICITANTE" id="EMAILSOLICITANTE"> <!-- Campo email -->
+                                </div>  <!-- END Form-group --> 
+                                 <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="CCUSTOSOLICITANTE" id="lbl_email" class="control-label">Setor/Centro de Custo</label>
+                                    <input type="text" class="form-control" name="CCUSTOSOLICITANTE" id="CCUSTOSOLICITANTE" readonly="readonly"> <!-- Campo email -->
+                                </div>  <!-- END Form-group -->                          
+                                <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                    <label for="TIPOSOLICITACAO" id="lbl_incidente" class="control-label">Classe de Serviço</label>
+                                        <!-- campo zoom realizar a consulta de dados de outro formulÃ¡rio atravÃ©s do fluig passando o nome do dataset e os campos (field) -->
+                                        <input type="zoom" class="form-control" name="TIPOSOLICITACAO" id="TIPOSOLICITACAO"
+                                            data-zoom="{
+                                                    'displayKey':'nmIncidente',
+                                                        'datasetId':'ds_tipo_solicitação',                                 
+                                                        'placeholder': 'Escolha o tipo de incidente',
+                                                            'fields':[
+                                                            {
+                                                            'field':'nmIncidente',
+                                                            'label':'Incidente',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                        /><!-- End Input zoom -->                        
+                           		 </div>  <!-- END Form-group -->
+                            	<div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                    <label for="RAMALSOLICITANTE" id="lbl_ramal" class="control-label">Ramal / Telefone</label>
+                                    <input type="text" mask="(00)90000-0000" class="form-control" name="RAMALSOLICITANTE" id="RAMALSOLICITANTE"> <!-- Campo nome solicitante -->
+                                </div>  
+                            	<div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                <label for="DESCRICAOSOLICITACAO" id="lbl_descricao" class="col-sm-2 control-label">Descrição</label> 
+                                <textarea class="form-control" rows="5" name="DESCRICAOSOLICITACAO" id="DESCRICAOSOLICITACAO" ></textarea> <!-- Campo descricao do incidente -->		  		
+                            </div> <!-- End form-group-->
+                        </fieldset>
+						<br/>
+						
+					
+                        <!-- INFORMAÃ‡OES SOBRE O CHAMADO, TEMPO DE ATENDIEMNTO, ID, E A DATA PARA FINALIZAÃ‡ÃƒO -->
+                        <fieldset id="suporte" name="suporte"> <!-- Start fildset -->
+                            <legend>Dados Suporte</legend>
+                                <div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                    <label for="DATAABERTURA" id="lbl_data" class="control-label">Data de Abertura</label>			
+                                    <input type="text" class="form-control" name="DATAABERTURA" id="DATAABERTURA"> <!-- Campo data do ticket -->
+                                </div><!-- END Form-group -->
+                                <div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                	<label for="SLA" id="LABELSLA" class="control-label">Prazo de Atendimento / SLA</label> 
+                                	<input type="text" class="form-control"  name="SLAEXTENSO" id="SLAEXTENSO" readonly="readonly">
+                                	<!-- CAMPO DO GESTOR PARA ALTERAR O SLA -->
+                                	<input type="hidden" class="form-control"  name="SLA" id="SLA"> <!-- Campo sla-->
+                                	<input type="hidden" class="form-control" name="IDCHAMADO" id="IDCHAMADO"> <!-- Campo NÃºmero do ticket -->
+                                <!-- CAMPO DO GESTOR PARA ALTERAR O SLA --> 	
+                            	</div><!-- End form-group-->
+                            	<div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                    <label for="DATAREABERTURA" id="lbl_reaberturadata" class="control-label">Data Reabertura</label>			
+                                    <input type="text" class="form-control" name="DATAREABERTURA" id="DATAREABERTURA"> <!-- Campo data do ticket -->
+                                </div><!-- END Form-group --> 
+                                <div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                    <label for="DATAFECHAMENTO" id="LABELDATAFECHAMENTO" class="control-label">Data do Termino</label>			
+                                    <input type="text" class="form-control" name="DATAFECHAMENTO" id="DATAFECHAMENTO" readonly="readonly"> <!-- Campo data do ticket -->
+                                </div><!-- END Form-group --> 
+                                <div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                	<label for="STATUS" id="LABELSTATUS" class="control-label">Status</label> 
+                                 	<select name="STATUS" id="STATUS" class="form-control" onclick="">	
+			                           		 		<option value="ABERTO">Aberto</option>
+			                           		 		<option value="PAUSADO" >Pausado </option>
+			                           		 		<option value="ANALISE">Análise de Processo</option>
+			                           		 		<option value="FECHADO">Fechado</option>
+                           		  	</select>	
+								<!-- campos com a infrmaoÃ§Ã£o de quem abriu um chamado e as infromÃ§Ãµes de resoluÃ§Ã£o  -->			
+                            	</div>
+                            	<div class=".form-group col-xs-12 col-md-2"> <!-- start Form-group -->
+                                	<label for="" id="LABELVENCIMENTOSLA" class="control-label">Vencimento SLA</label>        
+			                        	<input type="text" class="form-control" name="VENCIMENTOSLA" id="VENCIMENTOSLA" readonly="readonly">  		 		  	
+								<!-- campos com a infrmaoÃ§Ã£o de quem abriu um chamado e as infromÃ§Ãµes de resoluÃ§Ã£o  -->			
+                            	</div>
+                            	<div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                	<label for="SLAGESTOR" id="LABELSLAGESTOR" class="control-label">SLA</label> 
+                                 	<select name="SLAGESTOR" id="SLAGESTOR" class="form-control" onchange="alerta()" >	
+			                           		 		<option value="NULO" selected></option>
+			                           		 		<option value="5">05 Horas Úteis </option>
+			                           		 		<option value="8" >08 Horas Úteis</option>
+			                           		 		<option value="12">12 Horas Úteis</option>
+			                           		 		<option value="15">15 Horas Úteis</option>
+			                           		 		<option value="20">20 Horas Úteis</option>
+			                           		 		<option value="24">24 Horas Úteis</option>
+			                           		 		<option value="30">30 Horas Úteis</option>
+			                           		 		<option value="36">04 Dias Úteis</option>
+			                           		 		<option value="45">05 Dias Úteis</option>
+			                           		 		<option value="63">07 Dias Úteis</option>
+			                           		 		<option value="72">08 Dias Úteis</option>
+			                           		 		<option value="90">10 Dias Úteis</option>
+			                           		 		<option value="108">12 Dias Úteis</option>
+			                           		 		<option value="126">14 Dias Úteis</option>
+			                           		 		<option value="144">16 Dias Úteis</option>
+			                           		 		<option value="162">18 Dias Úteis</option>
+			                           		 		<option value="180">20 Dias Úteis</option>
+			                           		 		<option value="225">25 Dias Úteis</option>
+			                           		 		<option value="270">30 Dias Úteis</option>
+                           		  	</select>	
+								<!-- campos com a infrmaoÃ§Ã£o de quem abriu um chamado e as infromÃ§Ãµes de resoluÃ§Ã£o  -->			
+                            	</div><!-- End form-group--> 
+                                <div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                	<label for="TRANSFERECHAMADO" id="LABELTRANSFERECHAMADO" class="control-label">Troca Tecnico</label> 
+                           		  	<input type="zoom" class="form-control" name="TRANSFERECHAMADO" id="TRANSFERECHAMADO" 
+                                            data-zoom="{
+                                                    'displayKey':'FULL_NAME',
+                                                        'datasetId':'ds_tecnicos',                                 
+                                                        'placeholder': 'Escolha o Técnico',
+                                                            'fields':[
+                                                            {
+                                                            'field':'FULL_NAME',
+                                                            'label':'Nome',
+                                                            'standard':'true'
+                                                            }
+                                                        ]
+                                                    }"
+                                      >	
+                           		  	
+								<!-- campos com a infrmaoÃ§Ã£o de quem abriu um chamado e as infromÃ§Ãµes de resoluÃ§Ã£o  -->			
+                            	</div>
+                                <div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                    <label for="RESOLUCAO" id="lbl_solucao" class="col-sm-2 control-label">Solução</label>  
+                                    <textarea class="form-control" rows="5" name="RESOLUCAO" id="RESOLUCAO"></textarea> <!-- Campo soluÃ§Ã£o do incidente -->		  		
+                                </div> <!-- End form-group--> 
+                                <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="NOMETECNICO" id="lbl_responsavel">Nome Resp.</label>			
+                                    <input type="text" class="form-control" name="NOMETECNICO" id="NOMETECNICO"> <!-- Campo nome usuario suporte-->
+                                </div>      		
+                                <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="EMAILTECNICO" id="lbl_resp_email">Email Resp.</label>			
+                                    <input type="text" class="form-control" name="EMAILTECNICO" id="EMAILTECNICO"> <!-- Campo email usuario suporte -->
+                                </div><!-- END Form-group -->
+                                <div class=".form-group col-xs-12 col-md-4"> <!-- start Form-group -->
+                                    <label for="RAMALTECNICO" id="lbl_resp_ramal">Ramal Resp.</label>			
+                                    <input type="text" class="form-control" name="RAMALTECNICO" id="RAMALTECNICO"> <!-- Campo ramal usuario suporte-->
+                                </div>
+                                <!-- CATEGORIAS DE CHAMADO -->
+                                <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                  	<label for="CATEGORIA">Categoria:</label>
+											<select name="CATEGORIA" id="CATEGORIA"class="form-control" onchange="trocaOpcoes()">
+												  <option value="NULO"></option>
+												  <option value="ACESSO" >Acesso / Permissão</option>
+												  <option value="SOFTWARES">Aplicativo Gerais (Softwares)</option>
+												  <option value="BACKUP">Backup</option>
+												  <option value="CFTV">CFTV</option>
+												  <option value="EMAIL">E-mail</option>
+												  <option value="FLUIG">Fluig</option>
+												  <option value="FORMATACAOPC">Formatação / Reparo PC e Note</option>
+												  <option value="FORMATACAOTABLET">Formatação / Reparo Tablet </option>
+												  <option value="IMPRESSAO">Impressão</option>
+												  <option value="INFRAESTRUTURA">Infraestrutura</option>
+												  <option value="INTERNET">Internet - Conexão / Acesso</option>
+												  <option value="WINDOWS">Microsoft - Windows </option>
+												  <option value="OSE">OS - e</option>
+												  <option value="PONTOELETRONICO">Ponto Eletrônico</option>
+												  <option value="REDE">Rede</option>
+												  <option value="SENIOR">Senior ERP</option>
+												  <option value="ANTIVIRUS">Sophos - Antivirus</option>
+												  <option value="FIREWALL">Sophos - Firewall</option>
+												  <option value="MELHORIAS">Sugestão de Melhoria</option>
+												  <option value="TOTVS - ERP">TOTVS - ERP</option>
+												  <option value="TELEFONIA">Telefonia</option>
+												  <option value="INF">Transferência de INF</option>
+										</select>			                       		
+                           		 </div> 
+                           		 <!-- SUBCATEGORIAS TRAZEM AUTOMATICO  -->	
+                                 <div class=".form-group col-xs-12 col-md-6"> 	
+									<label for="SUBCATEGORIA">Subcategoria:</label>
+											<select name="SUBCATEGORIA" id="SUBCATEGORIA" class="form-control">
+												  <option value=""></option>
+											</select>	              		
+                           		 </div> 
+                           		 <!-- NIVEL DO CHAMADO-->	
+								 <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                  	 <label for="NIVEL">Nível:</label>
+										<select name="NIVEL" id="NIVEL" class="form-control" >	
+                  		 					<option value="NULO"></option>
+                  		 					<option value="DESENVOLVIMENTO">Desenvolvimento</option>
+                  		 					<option value="INFRAESTRUTURA">Infraestrutura</option>
+                  		 					<option value="MANUTENCAO">Manutenção</option>
+                  		 					<option value="SUPORTE">Suporte</option>
+                  		 					<option value="SUPORTEDESENVOLVIMENTO">Suporte Desenvolvimento</option>
+                        		 		</select>
+                               	 </div>
+                                 <!-- IMPACTO DO CHAMADO-->	
+                                 <div class=".form-group col-xs-12 col-md-6"> <!-- start Form-group -->
+                                  	<label for="IMPACTO">Impacto</label>
+	                                   <select name="IMPACTO" id="IMPACTO" class="form-control" >	
+	                           		 		<option value="NULO"></option>
+	                           		 		<option value="DEPARTAMENTO">Afeta o Departamento</option>
+	                           		 		<option value="NEGOCIO">Afeta o Negócio</option>
+	                           		 		<option value="USUARIO">Afeta o usuário</option>
+                    		 			</select>	
+                               	 </div>          
+                       
+                        </fieldset>
+                        <br/>
+						
+                        <fieldset id="APROVACAO_GERENCIA" name="APROVACAO_GERENCIA"> <!-- Start fildset -->
+                         <!-- BOTOES RADIO PATA AVALIAÃ‡ÃƒO DO ATENDIMENTO DO CHAMADO-->	
+                            <legend>Aprovação Gerencia</legend>
+                        
+                        	<div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                  	<label for="ESCOPO_APROVACAO_GERENCIA">Escopo Aprovado:</label>
+	                                   <select name="ESCOPO_APROVACAO_GERENCIA" id="ESCOPO_APROVACAO_GERENCIA" class="form-control" >	
+	                           		 		<option value="NULO"></option>
+	                           		 		<option value="SIM">Sim</option>
+	                           		 		<option value="NAO">Não</option> 
+                    		 			</select>	
+                            </div>
+                             
+                           <div class=".form-group col-xs-12 col-md-12">
+								<label for="OBS_APROVACAO_GERENCIA">Observação:</label>
+								<textarea id="OBS_APROVACAO_GERENCIA" name="OBS_APROVACAO_GERENCIA" value="" class="form-control" rows="4"></textarea>
+						</div>
+		
+                        </fieldset>
+                        <br/>
+                        
+                        <fieldset id="APROVACAO_DIRETORIA" name="APROVACAO_DIRETORIA"> <!-- Start fildset -->
+                         <!-- BOTOES RADIO PATA AVALIAÃ‡ÃƒO DO ATENDIMENTO DO CHAMADO-->	
+                            <legend>Aprovação Diretoria</legend>
+                          
+                          	<div class=".form-group col-xs-12 col-md-12"> <!-- start Form-group -->
+                                  	<label for="ESCOPO_APROVACAO_DIRETORIA">Escopo Aprovado:</label>
+	                                   <select name="ESCOPO_APROVACAO_DIRETORIA" id="ESCOPO_APROVACAO_DIRETORIA" class="form-control" >		 
+	                           		 		<option value="NULO"></option>
+	                           		 		<option value="SIM">Sim</option>
+	                           		 		<option value="NAO">Não</option> 
+                    		 			</select>	
+                             </div>
+                             <div class=".form-group col-xs-12 col-md-12">
+								<label for="OBS_APROVACAO_DIRETORIA">Observação:</label>
+								<textarea id="OBS_APROVACAO_DIRETORIA" name="OBS_APROVACAO_DIRETORIA" value="" class="form-control" rows="4"></textarea>
+							</div>
+                       
+                        </fieldset>
+                        <br/>
+						                        
+                        <fieldset id="feedback" name="feedback"> <!-- Start fildset -->
+                         <!-- BOTOES RADIO PATA AVALIAÃ‡ÃƒO DO ATENDIMENTO DO CHAMADO-->	
+                            <legend>Feedback Atendimento</legend>
+                                <div id="divradio" class="row form-group">
+                                    <label for="fgOtima" class=".form-group col-xs-12 col-md-12">Avaliação</label>
+
+                                        <div class=".form-group col-xs-12 col-md-12">
+                                            <label class="radio-inline">
+                                            <input type="radio" name="AVALIACAO" id="fgOtimo" value="Ótimo">
+                                                 Ótimo
+                                            </label>
+                                        </div>                                       
+                                        <div class=".form-group col-xs-12 col-md-12">
+                                            <label class="radio-inline">
+                                            <input type="radio" name="AVALIACAO" id="fgBom" value="Bom">
+                                                Bom
+                                            </label>
+                                        </div>                                       
+                                        <div class=".form-group col-xs-12 col-md-12">
+                                            <label class="radio-inline">
+                                                <input type="radio" name="AVALIACAO" id="fgRegular" value="Regular">
+                                                    Regular
+                                            </label>
+                                        </div>                                       
+	                                    <div class=".form-group col-xs-12 col-md-12">
+	                                        <label class="radio-inline">
+	                                            <input type="radio" name="AVALIACAO" id="fgRuim" value="Ruim">
+	                                               Ruim
+	                                        </label>
+	                                    </div>	                                    
+	                                    <div class=".form-group col-xs-12 col-md-12">
+	                                        <label class="radio-inline">
+	                                            <input type="radio" name="AVALIACAO" id="fgPessimo" value="péssimo">
+	                                                Péssimo						  
+	                                        </label>
+	                                    </div>
+	                                    <div class=".form-group col-xs-12 col-md-12">
+	                                        <label class="radio-inline">
+	                                            <input type="radio" name="AVALIACAO" id="fgNaoAtendido" value="Resolvido"  >
+	                                  				Problema Não Atendido
+	                                        </label>
+	                                    </div>
+	                                    
+                                </div>
+                                 <!-- CAMPO PARA AVALIAÃ‡ÃƒO ESCRITA DO ATENDIMENTO DO CHAMADO-->	
+	                            <div class=".form-group col-xs-12 col-md-12">
+	                                <label for="COMENTARIOAVALIACAO" id="lbl_comentario"class="col-sm-1 control-label">Comentário</label>
+	                                    <textarea class="form-control" rows="5" name="COMENTARIOAVALIACAO" id="COMENTARIOAVALIACAO" ></textarea>
+	                            </div>
+                                	
+                                
+                               		<input type="hidden" name="CHAPATECNICO" id="CHAPATECNICO">
+                               		<input type="hidden" class="form-control" name="NUM_ATIVIDADE" id="NUM_ATIVIDADE">
+                                	<input type="hidden" name="PAPEL" id="PAPEL">
+                                	
+                        </fieldset>
+                </form>
+        
+        </div>  
+    </body>
+</html>
